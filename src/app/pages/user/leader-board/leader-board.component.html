@@ -1,0 +1,23 @@
+<div class="leaderboard-container">
+    <h2>Leaderboard</h2>
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Username</th>
+          <th>Marks</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of leaderboardEntries; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ entry.username }}</td>
+          <td>{{ entry.marksGot }}</td>
+          <td>{{ entry.timestamp | date:'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+ 
+  

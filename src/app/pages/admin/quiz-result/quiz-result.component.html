@@ -1,0 +1,52 @@
+<div class="quiz-results-container animate__animated animate__fadeIn animate__delay-1s">
+  <h2 class="text-center">Quiz Results</h2>
+
+  <mat-card class="quiz-results-card">
+    <table class="quiz-results-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User Name</th>
+          <th>Quiz Name</th>
+          <th>Marks Got</th>
+          <th>Correct Answers</th>
+          <th>Attempted</th>
+          <th>Date And Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let result of paginatedResults" class="quiz-result-item">
+          <td>{{ result.id }}</td>
+          <td>{{ result.username }}</td>
+          <td>{{ result.quizName }}</td>
+          <td>{{ result.marksGot }}</td>
+          <td>{{ result.correctAnswers }}</td>
+          <td>{{ result.attempted }}</td>
+          <td>{{ result.timestamp | date:'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination-controls">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onPreviousPage()"
+        [disabled]="currentPage === 1"
+        class="pagination-btn"
+      >
+        Previous
+      </button>
+      <span class="pagination-info">Page {{currentPage}} of {{totalPages}}</span>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onNextPage()"
+        [disabled]="currentPage === totalPages"
+        class="pagination-btn"
+      >
+        Next
+      </button>
+    </div>
+  </mat-card>
+</div>

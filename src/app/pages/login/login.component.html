@@ -1,0 +1,47 @@
+<div class="login-wrapper">
+  <div class="overlay"></div>
+  <div class="login-container">
+    <mat-card class="login-card mat-elevation-z8 animate__animated animate__fadeIn animate__delay-1s">
+      <div class="logo-container text-center">
+        <img src="../../../assets/logo.png" alt="Logo" class="logo animate__animated animate__zoomIn" />
+      </div>
+
+      <h1 class="text-center animate__animated animate__fadeInUp">Login Here !!</h1>
+
+      <form (ngSubmit)="formSubmit()" class="animate__animated animate__fadeIn">
+        <!-- Username field -->
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>User Name</mat-label>
+          <input
+            [(ngModel)]="loginData.username"
+            name="username"
+            required
+            matInput
+            placeholder="Enter here"
+            class="input-field"
+          />
+          <mat-hint>Valid User Name</mat-hint>
+        </mat-form-field>
+
+        <!-- Password field -->
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>User Password</mat-label>
+          <input
+            [(ngModel)]="loginData.password"
+            name="password"
+            type="password"
+            required
+            matInput
+            placeholder="Enter here"
+            class="input-field"
+          />
+        </mat-form-field>
+
+        <div class="text-center mt-3">
+          <button mat-raised-button color="primary" type="submit" class="btn-login">Login</button>
+          <button mat-raised-button color="accent" type="reset" class="btn-reset ml10">Reset</button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>

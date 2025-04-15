@@ -1,0 +1,55 @@
+<mat-card *ngIf="user" class="profile-card animate__animated animate__fadeIn animate__delay-1s">
+  <mat-card-header class="profile-card-header">
+    <div class="profile-header-content">
+      <img
+        src="https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+        alt="Profile Image"
+        class="profile-image animate__animated animate__zoomIn"
+      />
+      <div class="profile-info">
+        <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+        <p class="user-role">{{ user.authorities[0].authority }}</p>
+      </div>
+    </div>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div class="container">
+      <!-- User Info Table -->
+      <div class="profile-table-container">
+        <table class="table text-center profile-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Username</td>
+              <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+              <td>User ID</td>
+              <td>EXAM{{ user.id }}</td>
+            </tr>
+            <tr>
+              <td>Phone</td>
+              <td>{{ user.phone }}</td>
+            </tr>
+            <tr>
+              <td>Status</td>
+              <td>{{ user.enabled ? "ACTIVE" : "NOT ACTIVE" }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <!-- Profile Actions -->
+  <mat-card-actions class="text-center profile-actions">
+    <button mat-raised-button color="primary" class="action-btn animate__animated animate__fadeInUp">UPDATE</button>
+    <button mat-raised-button color="accent" class="action-btn animate__animated animate__fadeInUp animate__delay-1s">SHARE</button>
+  </mat-card-actions>
+</mat-card>

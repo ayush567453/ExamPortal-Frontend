@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ExamPortal | World's Best Exam Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-bg: #f1f3f4;
+      --accent: #4e54c8;
+      --highlight: #8f94fb;
+      --glass: rgba(255, 255, 255, 0.7);
+      --text-dark: #212121;
+      --text-muted: #444;
+      --bg-gradient: linear-gradient(135deg, #00bcd4, #3f51b5);
+      --hero-overlay: rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: #24315A;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px 60px;
+      color: #fff;
+      background: #24315A;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #24315A;
+      z-index: 1;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      background:#083cf7;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+      padding: 50px;
+      border-radius: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      z-index: 2;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .hero-left, .hero-right {
+      flex: 1;
+      min-width: 300px;
+      padding: 20px;
+    }
+
+    .hero-left h1 {
+      font-size: 3.2rem;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .tagline {
+      font-size: 1.3rem;
+      margin-bottom: 25px;
+      color: #fff;
+    }
+
+    .points {
+      font-size: 1rem;
+      margin-bottom: 30px;
+      color: #fff;
+    }
+
+    .points li {
+      margin-bottom: 8px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-start { background: #00e676; color: #000; }
+    .btn-login { background: #ff4081; color: #fff; }
+    .btn-register { background: #2196f3; color: #fff; }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    .hero-right img {
+      width: 100%;
+      max-width: 400px;
+      animation: popIn 2s ease;
+    }
+
+    .section {
+      text-align: center;
+      padding: 60px 20px;
+      background-color: #083cf7;
+      color: var(--text-dark);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin: 40px 20px;
+    }
+
+    .section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .section p {
+      max-width: 800px;
+      margin: auto;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .section ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+      max-width: 800px;
+      margin-inline: auto;
+      color: #333;
+      font-size: 1.1rem;
+      text-align: left;
+    }
+
+    .section ul li {
+      margin-bottom: 12px;
+    }
+
+    .access-fee {
+      margin-top: 25px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #00bcd4;
+    }
+
+    .partners-section {
+      padding: 40px 20px;
+      background-color: #083cf7;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin: 40px 20px;
+    }
+
+    .partners-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .partners-logo {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .partner-logo {
+      text-align: center;
+    }
+
+    .partner-logo img {
+      width: 120px;
+      max-width: 100%;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .partner-logo img:hover {
+      opacity: 1;
+    }
+
+    .partner-logo p {
+      margin-top: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    footer {
+      background: #000;
+      padding: 30px 20px;
+      text-align: center;
+      color: #fff;
+      font-size: 0.95rem;
+      margin-top: 0;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    footer h3 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    footer a {
+      color: #80d8ff;
+      text-decoration: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @media(max-width: 768px) {
+      .hero-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-left h1 {
+        font-size: 2.4rem;
+      }
+
+      .btn-group {
+        justify-content: center;
+      }
+
+      .hero-right img {
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-left">
+        <h1>🌍 World’s Best ExamPortal</h1>
+        <p class="tagline">Your gateway to smarter, faster & more reliable learning</p>
+        <ul class="points">
+          <li>✅ AI-Powered Quizzes & Exams</li>
+          <li>📊 Real-time Results & Analytics</li>
+          <li>🔐 Secure, Scalable & User-Friendly</li>
+          <li>🎯 Trusted by 1000+ Institutions</li>
+        </ul>
+        <div class="btn-group">
+          <button class="btn btn-start">🚀 Start Exam</button>
+          <button class="btn btn-login"   [routerLink]="'/login'">🔐 Login</button>
+          <button class="btn btn-register" [routerLink]="'/signup'">📝 Register</button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="Student Illustration">
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US SECTION -->
+  <section class="section">
+    <h2>Why Choose ExamPortal?</h2>
+    <p>
+      We don’t just help you take exams — we help you conquer them.  
+      With AI-driven analysis, user-friendly experience, and rock-solid performance,  
+      we are redefining digital education for the next generation.
+    </p>
+    <p class="access-fee">💰 Access Fee: Just ₹499/year — Unlimited Exams!</p>
+  </section>
+
+  <!-- SMART FEATURES SECTION -->
+  <section class="section">
+    <h2>🚀 Our Smart Features</h2>
+    <p>
+      ExamPortal isn’t just about exams – it’s your complete career toolkit powered by AI!  
+      Explore advanced features built to help you succeed in studies and career.
+    </p>
+
+    <ul>
+      <li>✅ <strong>Resume Shortlisting with ATS:</strong> Upload your resume and get AI-based feedback & shortlisting based on real hiring standards.</li>
+      <li>🤖 <strong>AI-Powered Job Matching:</strong> Discover career opportunities that fit your skills and profile – powered by machine learning.</li>
+      <li>💻 <strong>Online Coding Test with Video Recording:</strong> Attempt secure coding rounds with real-time webcam monitoring.</li>
+      <li>🎥 <strong>AI-Based Proctoring:</strong> No human required! Our AI proctors track suspicious behavior automatically.</li>
+      <li>📈 <strong>Performance Analytics:</strong> Know your strengths & weaknesses after every test with detailed AI insights.</li>
+    </ul>
+  </section>
+
+  <!-- PARTNERS SECTION -->
+  <section class="partners-section">
+    <h2>Our Trusted Partners</h2>
+    <div class="partners-logo">
+      <div class="partner-logo">
+        <img src="https://wallpaperaccess.com/full/8410995.jpg" alt="IIT Delhi">
+        <p>IIT Delhi</p>
+      </div>
+      <div class="partner-logo">
+        <img src="https://images.unsplash.com/photo-1622397333309-3056849bc70b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" alt="Harvard University">
+        <p>Harvard University</p>
+      </div>
+      <div class="partner-logo">
+        <img src="https://tse2.mm.bing.net/th?id=OIP.jysJnkNi7Ocnv5aAikvD7wHaEo&pid=Api" alt="Stanford University">
+        <p>Stanford University</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <h3>Follow Us on Social Media</h3>
+    <p>© 2025 ExamPortal, All Rights Reserved | <a href="#">Privacy Policy</a></p>
+    <p><strong>Contact Us:</strong> Ayush | Mobile: 6394528249 | Email: <a href="mailto:amaddheshiya2003@gmail.com">amaddheshiya2003@gmail.com</a></p>
+    
+    <!-- CEO & Co-Founder Section -->
+ <!-- CEO & Co-Founder Section -->
+<div class="ceo-info">
+  <h4>CEO & Co-Founder</h4>
+  <div class="ceo-details">
+    <img src="https://images.unsplash.com/photo-1622397333309-3056849bc70b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" alt="Abhishek Upadhyay" class="ceo-img" />
+    <p><strong>Abhishek Upadhyay</strong></p>
+    <p>CEO & Co-Founder</p>
+  </div>
+</div>
+
+  </footer>
+  
+  
+
+</body>
+</html>

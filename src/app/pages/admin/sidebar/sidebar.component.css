@@ -1,0 +1,58 @@
+.sidebar-card {
+    width: 100%;
+    max-width: 280px;
+    padding: 0;
+    background: #f5f7fa;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .menu-header {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 16px 20px;
+    background-color: #3f51b5;
+    color: white;
+  }
+  
+  .menu-btn {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+    color: #333;
+  }
+  
+  .menu-btn mat-icon {
+    margin-right: 12px;
+    color: #3f51b5;
+  }
+  
+  .menu-btn:hover {
+    background-color: #e0e7ff;
+    transform: translateX(3px);
+  }
+  
+  .menu-btn:focus {
+    outline: none;
+  }
+  
+  .logout-btn {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    background-color: #ffeaea;
+  }
+  
+  .logout-btn:hover {
+    background-color: #ffcdd2;
+  }
+  
+  @media (max-width: 768px) {
+    .sidebar-card {
+      max-width: 100%;
+      border-radius: 0;
+    }
+  }
+  

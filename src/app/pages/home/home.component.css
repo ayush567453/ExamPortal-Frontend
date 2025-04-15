@@ -1,0 +1,17 @@
+.ceo-info {
+    text-align: center; /* Centering the CEO info */
+    margin-top: 20px;
+  }
+  
+  .ceo-details {
+    display: inline-block; /* Makes it inline block to center */
+    text-align: center; /* Center text inside the block */
+  }
+  
+  .ceo-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  

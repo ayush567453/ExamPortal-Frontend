@@ -1,0 +1,78 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+
+.registration-container {
+  background-image: url('https://tse1.mm.bing.net/th?id=OIP.oWYzrOm09mj_Q1NOunmTJwHaE8&pid=Api&P=0&h=180');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.registration-card {
+  padding: 50px; /* Increased padding for a bigger container */
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.6); /* Even more transparent background */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* More prominent shadow */
+  max-width: 550px; /* Increased max width */
+  width: 100%;
+  animation: fadeInUp 1s ease;
+}
+
+h1 {
+  font-size: 2rem; /* Larger font size */
+  margin-bottom: 30px; /* Increased margin */
+  font-weight: 600;
+  color: #333;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+mat-label {
+  font-size: 1.1rem;
+}
+
+mat-input-container input {
+  color: #333;
+}
+
+mat-hint {
+  color: #666;
+}
+
+button.register-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.2rem; /* Increased button font size */
+  background-color: #5c6bc0;
+  color: white;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+button.register-btn:hover {
+  background-color: #3f51b5;
+}
+
+button.clear-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.2rem; /* Increased button font size */
+  margin-top: 10px;
+  background-color: #8e24aa;
+  color: white;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+button.clear-btn:hover {
+  background-color: #7b1fa2;
+}

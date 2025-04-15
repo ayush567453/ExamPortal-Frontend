@@ -1,0 +1,127 @@
+/* General Wrapper Styles */
+.bootstrap-wrapper {
+  background: #f4f6f9;
+  padding: 30px 0;
+}
+
+/* Header Styling */
+h1.mt-20 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+/* Card Styling */
+.quiz-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+mat-card-header {
+  padding: 20px;
+  background-color: #5c6bc0;
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+}
+
+mat-card-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+mat-card-subtitle {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+mat-card-content {
+  padding: 20px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.truncate {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* Button Styling */
+.quiz-action-btn {
+  width: 45%;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.quiz-action-btn:hover {
+  transform: translateY(-3px);
+}
+
+.quiz-action-btn:first-child {
+  background-color: #5c6bc0;
+  color: white;
+}
+
+.quiz-action-btn:first-child:hover {
+  background-color: #3f51b5;
+}
+
+.quiz-action-btn:nth-child(2) {
+  background-color: #8e24aa;
+  color: white;
+}
+
+.quiz-action-btn:nth-child(2):hover {
+  background-color: #7b1fa2;
+}
+
+.quiz-action-btn:nth-child(3),
+.quiz-action-btn:nth-child(4) {
+  background-color: #ff7043;
+  color: white;
+}
+
+.quiz-action-btn:nth-child(3):hover,
+.quiz-action-btn:nth-child(4):hover {
+  background-color: #e64a19;
+}
+
+/* Empty State Styling */
+.mat-card-content h1 {
+  text-align: center;
+  color: #999;
+  font-size: 1.8rem;
+  margin-top: 50px;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .col-md-4 {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .col-md-4 {
+    width: 100%;
+  }
+}

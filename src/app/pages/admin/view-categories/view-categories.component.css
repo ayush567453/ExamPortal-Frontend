@@ -1,0 +1,82 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+
+.category-card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-10px);
+}
+
+.category-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 20px;
+}
+
+.mat-list {
+  padding: 0;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s ease;
+}
+
+.category-item:hover {
+  background-color: #f9f9f9;
+}
+
+.category-icon {
+  font-size: 2rem;
+  color: #3f51b5;
+  margin-right: 15px;
+}
+
+.category-title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.category-description {
+  font-size: 1rem;
+  color: #777;
+}
+
+.mat-divider {
+  margin-top: 10px;
+}
+
+.add-category-btn {
+  font-size: 1.1rem;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.add-category-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.mat-raised-button {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  box-shadow: none;
+}
