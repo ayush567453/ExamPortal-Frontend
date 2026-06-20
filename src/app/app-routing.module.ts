@@ -24,6 +24,7 @@ import { QuizResultComponent } from './pages/admin/quiz-result/quiz-result.compo
 import { ForgotpasswordComponent } from './pages/user/forgotpassword/forgotpassword.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { LeaderBoardComponent } from './pages/user/leader-board/leader-board.component';
+<<<<<<< HEAD
 import { SuperDashboardComponent } from './pages/super-admin/super-dashboard/super-dashboard.component';
 import { TenantListComponent } from './pages/super-admin/tenant-list/tenant-list.component';
 import { TenantFormComponent } from './pages/super-admin/tenant-form/tenant-form.component';
@@ -35,6 +36,8 @@ import { TimetableComponent } from './pages/school-admin/timetable/timetable.com
 import { FeesComponent } from './pages/school-admin/fees/fees.component';
 import { SuperAdminGuard } from './guards/super-admin.guard';
 import { SchoolAdminGuard } from './guards/school-admin.guard';
+=======
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 
 const routes: Routes = [
   {
@@ -138,6 +141,7 @@ component:ResetPasswordComponent,
     component: StartComponent,
     canActivate: [NormalGuard],
   },
+<<<<<<< HEAD
   {
     path: 'super-admin',
     canActivate: [SuperAdminGuard],
@@ -162,6 +166,8 @@ component:ResetPasswordComponent,
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
+=======
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 ];
 
 @NgModule({

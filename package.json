@@ -26,7 +26,10 @@
     "bootstrap-grid-only-css": "^4.1.3",
     "ngx-image-cropper": "^8.1.0",
     "ngx-ui-loader": "^11.0.0",
+<<<<<<< HEAD
     "ngx-webcam": "^0.3.2",
+=======
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
     "rxjs": "~6.6.0",
     "sweetalert2": "^10.16.7",
     "tslib": "^2.0.0",

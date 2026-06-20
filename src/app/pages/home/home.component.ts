@@ -1,13 +1,18 @@
+<<<<<<< HEAD
 import {
   Component, OnInit, OnDestroy,
   ViewChild, ElementRef,
   AfterViewChecked, AfterViewInit,
 } from '@angular/core';
 import { LlmService } from 'src/app/components/llm.service';
+=======
+import { Component, OnInit } from '@angular/core';
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+<<<<<<< HEAD
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, AfterViewChecked, AfterViewInit, OnDestroy {
@@ -140,4 +145,15 @@ export class HomeComponent implements OnInit, AfterViewChecked, AfterViewInit, O
         this.chatMessagesRef.nativeElement.scrollTop = this.chatMessagesRef.nativeElement.scrollHeight;
     } catch {}
   }
+=======
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 }

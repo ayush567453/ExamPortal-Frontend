@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import baseUrl from 'src/app/services/helper';
+=======
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
+<<<<<<< HEAD
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
@@ -70,4 +74,16 @@ export class SidebarComponent implements OnInit {
     this.login.logout();
     this.router.navigate(['/login']);
   }
+=======
+  styleUrls: ['./sidebar.component.css']
+})
+export class SidebarComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+    
+  }
+
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 }

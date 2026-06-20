@@ -1,4 +1,5 @@
 import { LocationStrategy } from '@angular/common';
+<<<<<<< HEAD
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -7,21 +8,36 @@ import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
 import baseUrl from 'src/app/services/helper';
 import { environment } from 'src/environments/environment';
+=======
+import { ThisReceiver } from '@angular/compiler';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { QuestionService } from 'src/app/services/question.service';
+import { QuizService } from 'src/app/services/quiz.service';
+import Swal from 'sweetalert2';
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.css'],
 })
+<<<<<<< HEAD
 export class StartComponent implements OnInit, OnDestroy {
   qid: any;
   questions: any;
+=======
+export class StartComponent implements OnInit {
+  qid;
+  questions;
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 
   marksGot = 0;
   correctAnswers = 0;
   attempted = 0;
 
   isSubmit = false;
+<<<<<<< HEAD
   timer: any;
 
   // Webcam
@@ -41,17 +57,26 @@ export class StartComponent implements OnInit, OnDestroy {
   proctoringMessage = '';
   proctoringCaption = '';
   isAnalyzing = false;
+=======
+
+  timer: any;
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 
   constructor(
     private locationSt: LocationStrategy,
     private _route: ActivatedRoute,
     private _question: QuestionService,
+<<<<<<< HEAD
     private _login: LoginService,
     private http: HttpClient
+=======
+    private _quiz: QuizService
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
   ) {}
 
   ngOnInit(): void {
     this.preventBackButton();
+<<<<<<< HEAD
     this.qid = this._route.snapshot.params['qid'];
     this.loadQuestions();
     this.startWebcam();
@@ -62,13 +87,29 @@ export class StartComponent implements OnInit, OnDestroy {
     this.stopAll();
   }
 
+=======
+    this.qid = this._route.snapshot.params.qid;
+    console.log(this.qid);
+    this.loadQuestions();
+  }
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
   loadQuestions() {
     this._question.getQuestionsOfQuizForTest(this.qid).subscribe(
       (data: any) => {
         this.questions = data;
+<<<<<<< HEAD
         this.timer = this.questions.length * 2 * 60;
         this.startTimer();
       },
+=======
+
+        this.timer = this.questions.length * 2 * 60;
+
+        console.log(this.questions);
+        this.startTimer();
+      },
+
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
       (error) => {
         console.log(error);
         Swal.fire('Error', 'Error in loading questions of quiz', 'error');
@@ -76,6 +117,7 @@ export class StartComponent implements OnInit, OnDestroy {
     );
   }
 
+<<<<<<< HEAD
   async startWebcam() {
     try {
       this.webcamStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
@@ -266,6 +308,12 @@ export class StartComponent implements OnInit, OnDestroy {
     history.pushState(null, '', location.href);
     this.locationSt.onPopState(() => {
       history.pushState(null, '', location.href);
+=======
+  preventBackButton() {
+    history.pushState(null, null, location.href);
+    this.locationSt.onPopState(() => {
+      history.pushState(null, null, location.href);
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
     });
   }
 
@@ -284,6 +332,10 @@ export class StartComponent implements OnInit, OnDestroy {
 
   startTimer() {
     let t = window.setInterval(() => {
+<<<<<<< HEAD
+=======
+      //code
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
       if (this.timer <= 0) {
         this.evalQuiz();
         clearInterval(t);
@@ -300,6 +352,7 @@ export class StartComponent implements OnInit, OnDestroy {
   }
 
   evalQuiz() {
+<<<<<<< HEAD
     // Stop recording, wait for final chunk, then upload
     if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
       this.mediaRecorder.stop();
@@ -313,6 +366,13 @@ export class StartComponent implements OnInit, OnDestroy {
 
     this._question.evalQuiz(this.questions).subscribe(
       (data: any) => {
+=======
+    //calculation
+    //call to sever  to check questions
+    this._question.evalQuiz(this.questions).subscribe(
+      (data: any) => {
+        console.log(data);
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
         this.marksGot = data.marksGot;
         this.correctAnswers = data.correctAnswers;
         this.attempted = data.attempted;
@@ -322,5 +382,24 @@ export class StartComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
+<<<<<<< HEAD
+=======
+    // this.isSubmit = true;
+    // this.questions.forEach((q) => {
+    //   if (q.givenAnswer == q.answer) {
+    //     this.correctAnswers++;
+    //     let marksSingle =
+    //       this.questions[0].quiz.maxMarks / this.questions.length;
+    //     this.marksGot += marksSingle;
+    //   }
+    //   if (q.givenAnswer.trim() != '') {
+    //     this.attempted++;
+    //   }
+    // });
+    // console.log('Correct Answers :' + this.correctAnswers);
+    // console.log('Marks Got ' + this.marksGot);
+    // console.log('attempted ' + this.attempted);
+    // console.log(this.questions);
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
   }
 }

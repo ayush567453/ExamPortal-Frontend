@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .ac-page { padding: 28px 32px; font-family: 'Segoe UI', sans-serif; max-width: 620px; }
 .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
 .page-title { font-size: 1.5rem; font-weight: 800; color: #1e293b; margin: 0 0 4px; }
@@ -18,3 +19,89 @@
 .cancel-link:hover { color: #1e3a5f; text-decoration: underline; }
 .spinner-inline { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+=======
+.w100 {
+  width: 100%;
+}
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+
+.add-category-card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  transition: transform 0.3s ease;
+}
+
+.add-category-card:hover {
+  transform: translateY(-10px);
+}
+
+.add-category-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-control {
+  font-size: 1rem;
+}
+
+textarea.mat-input-element {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.mat-form-field-label {
+  font-size: 1rem;
+  color: #444;
+}
+
+.submit-btn {
+  font-size: 1.1rem;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.mat-raised-button {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  box-shadow: none;
+}
+
+.bootstrap-wrapper {
+  margin-top: 30px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 20px;
+}
+
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43

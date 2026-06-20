@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { LoginService } from 'src/app/services/login.service';
+=======
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 import { QuizResult, QuizresultService } from 'src/app/services/quizresult.service';
 
 @Component({
   selector: 'app-quiz-result',
   templateUrl: './quiz-result.component.html',
+<<<<<<< HEAD
   styleUrls: ['./quiz-result.component.css'],
 })
 export class QuizResultComponent implements OnInit {
@@ -25,10 +29,27 @@ export class QuizResultComponent implements OnInit {
   ngOnInit(): void {
     this.role = this.loginService.getUserRole() || '';
     this.tenantId = this.loginService.getTenantId();
+=======
+  styleUrls: ['./quiz-result.component.css']
+})
+export class QuizResultComponent implements OnInit {
+
+
+  quizResults: QuizResult[] = [];
+  
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  paginatedResults: QuizResult[] = [];
+
+  constructor(private quizresultService: QuizresultService) { }
+
+  ngOnInit(): void {
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
     this.fetchQuizResults();
   }
 
   fetchQuizResults(): void {
+<<<<<<< HEAD
     this.loading = true;
     const load$ =
       this.role === 'SCHOOL_ADMIN' && this.tenantId
@@ -86,3 +107,39 @@ export class QuizResultComponent implements OnInit {
     this.paginate();
   }
 }
+=======
+    this.quizresultService.getResultUser().subscribe(
+      (results: QuizResult[]) => {
+        this.quizResults = results;
+        this.setPage(this.currentPage);
+      },
+      (error) => {
+        console.error('Error fetching quiz results', error);
+      }
+    );
+
+  }
+  setPage(page: number): void {
+    this.currentPage = page;
+    const startIndex = (page - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedResults = this.quizResults.slice(startIndex, endIndex);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.quizResults.length / this.itemsPerPage);
+  }
+
+  onNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.setPage(this.currentPage + 1);
+    }
+  }
+
+  onPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.setPage(this.currentPage - 1);
+    }
+  }
+}
+>>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
