@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://YOUR_RAILWAY_URL.up.railway.app',
+  apiUrl: 'https://examportal-backend-production-0435.up.railway.app',
   huggingFaceApiKey: '',
 };
