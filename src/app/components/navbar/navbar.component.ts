@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 import { Component, OnInit, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from 'src/app/services/login.service';
 import baseUrl from 'src/app/services/helper';
-=======
-import { ThrowStmt } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/services/login.service';
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +10,6 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class NavbarComponent implements OnInit {
   isLoggedIn = false;
-<<<<<<< HEAD
   user: any = null;
   role = '';
   schoolName = '';
@@ -93,27 +86,10 @@ export class NavbarComponent implements OnInit {
 
   get userInitial(): string {
     return (this.user?.username || this.user?.name || '?')[0].toUpperCase();
-=======
-  user = null;
-
-  constructor(public login: LoginService) {}
-
-  ngOnInit(): void {
-    this.isLoggedIn = this.login.isLoggedIn();
-    this.user = this.login.getUser();
-    this.login.loginStatusSubject.asObservable().subscribe((data) => {
-      this.isLoggedIn = this.login.isLoggedIn();
-      this.user = this.login.getUser();
-    });
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
   }
 
   public logout() {
     this.login.logout();
     window.location.reload();
-<<<<<<< HEAD
-=======
-    // this.login.loginStatusSubject.next(false);
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
   }
 }

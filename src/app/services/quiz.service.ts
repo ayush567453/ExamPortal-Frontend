@@ -43,7 +43,6 @@ export class QuizService {
   }
 
   //get active quizzes of category
-<<<<<<< HEAD
   public getActiveQuizzesOfCategory(cid: any) {
     return this._http.get(`${baseUrl}/quiz/category/active/${cid}`);
   }
@@ -57,9 +56,4 @@ export class QuizService {
   public getQuizzesByTenant(tenantId: string) {
     return this._http.get(`${baseUrl}/quiz/tenant/${tenantId}`);
   }
-=======
-  public getActiveQuizzesOfCategory(cid) {
-    return this._http.get(`${baseUrl}/quiz/category/active/${cid}`);
-  }
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 }

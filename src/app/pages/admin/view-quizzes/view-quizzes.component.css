@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .vq-page { padding: 28px 32px; font-family: 'Segoe UI', sans-serif; }
 
 .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
@@ -47,9 +46,3 @@
 .action-link.blue:hover { background: #dbeafe; }
 .action-link.green:hover { background: #dcfce7; }
 .action-link.red:hover { background: #fee2e2; }
-=======
-.example-header-image {
-  background-image: url("../../../../assets/exam.png");
-  background-size: cover;
-}
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43

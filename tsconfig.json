@@ -18,11 +18,7 @@
     ]
   },
   "angularCompilerOptions": {
-<<<<<<< HEAD
     "enableIvy": true
     
-=======
-    "enableI18nLegacyMessageIdFormat": false
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
   }
 }

@@ -46,7 +46,6 @@ import { ForgotpasswordComponent } from './pages/user/forgotpassword/forgotpassw
 import { ResetpasswordComponent } from './pages/user/resetpassword/resetpassword.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { LeaderBoardComponent } from './pages/user/leader-board/leader-board.component';
-<<<<<<< HEAD
 import { WebcamModule } from 'ngx-webcam';
 import { ChatbotcomponentComponent } from './components/chatbotcomponent/chatbotcomponent.component';
 import { SuperDashboardComponent } from './pages/super-admin/super-dashboard/super-dashboard.component';
@@ -58,8 +57,6 @@ import { TeacherListComponent } from './pages/school-admin/teacher-list/teacher-
 import { ClassesComponent } from './pages/school-admin/classes/classes.component';
 import { TimetableComponent } from './pages/school-admin/timetable/timetable.component';
 import { FeesComponent } from './pages/school-admin/fees/fees.component';
-=======
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 
 
 @NgModule({
@@ -70,10 +67,7 @@ import { FeesComponent } from './pages/school-admin/fees/fees.component';
     SignupComponent,
     LoginComponent,
     HomeComponent,
-<<<<<<< HEAD
     
-=======
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
     DashboardComponent,
     UserDashboardComponent,
     ProfileComponent,
@@ -95,7 +89,6 @@ import { FeesComponent } from './pages/school-admin/fees/fees.component';
     ResetpasswordComponent,
     ResetPasswordComponent,
     LeaderBoardComponent,
-<<<<<<< HEAD
     ChatbotcomponentComponent,
     SuperDashboardComponent,
     TenantListComponent,
@@ -106,9 +99,6 @@ import { FeesComponent } from './pages/school-admin/fees/fees.component';
     ClassesComponent,
     TimetableComponent,
     FeesComponent,
-=======
-   
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
   ],
   imports: [
     BrowserModule,
@@ -117,10 +107,6 @@ import { FeesComponent } from './pages/school-admin/fees/fees.component';
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
-<<<<<<< HEAD
-=======
-   
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
     FormsModule,
     HttpClientModule,
     MatSnackBarModule,

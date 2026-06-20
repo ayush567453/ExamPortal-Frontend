@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-<<<<<<< HEAD
 import { Router, NavigationEnd } from '@angular/router';
 
-=======
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +8,6 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class AppComponent {
   title = 'TestYourself';
-<<<<<<< HEAD
   showNavbar = true;
 
   // Routes where the global navbar should be hidden
@@ -25,6 +21,4 @@ export class AppComponent {
       }
     });
   }
-=======
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 }

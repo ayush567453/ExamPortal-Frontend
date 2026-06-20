@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .aq-page {
   padding: 28px 32px;
   font-family: 'Segoe UI', sans-serif;
@@ -153,8 +152,4 @@
   .aq-page { padding: 16px; }
   .form-card { padding: 20px 16px; }
   .form-row { grid-template-columns: 1fr; }
-=======
-.w100 {
-  width: 100%;
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
 }

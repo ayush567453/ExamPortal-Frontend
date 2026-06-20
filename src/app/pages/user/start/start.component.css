@@ -135,7 +135,6 @@
     background-color: #7b1fa2;
   }
   
-<<<<<<< HEAD
   /* Webcam video */
   .webcam-video {
     width: 80%;
@@ -226,8 +225,6 @@
     text-align: center;
   }
 
-=======
->>>>>>> 8b131899faaf4c29db739e73430e1f5bc801be43
   /* Responsive Design */
   @media (max-width: 768px) {
     .col-md-2 {
