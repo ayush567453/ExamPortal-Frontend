@@ -7,56 +7,45 @@
           <p>Answer all questions. Quiz will be automatically submitted when the timer reaches zero.</p>
         </mat-card>
       </div>
+
       <div class="col-md-8">
-        <ng-container *ngIf="questions">
-          <h1 class="mt-20">
-            On Going Quiz <b>{{ questions[0].quiz.title }}</b>
-          </h1>
-        </ng-container>
-
+        <!-- Quiz questions -->
         <div *ngFor="let q of questions; let i = index">
-          <mat-card class="question-card mb-4 animate__animated animate__fadeInUp">
+          <mat-card class="question-card" style="margin-bottom: 15px;">
             <mat-card-content>
-              <p>
-                <b>Q {{ i + 1 }})</b>
-                <span class="ml10" [innerHTML]="q.content"></span>
-              </p>
-
+              <p><strong>Q{{ i + 1 }}.</strong> <span [innerHTML]="q.content"></span></p>
               <mat-divider></mat-divider>
-
-              <div class="row mt-20">
-                <div class="col-md-6">
-                  <input type="radio" [value]="q.option1" [name]="i" [(ngModel)]="q.givenAnswer" /> {{ q.option1 }}
-                </div>
-                <div class="col-md-6">
-                  <input type="radio" [value]="q.option2" [name]="i" [(ngModel)]="q.givenAnswer" /> {{ q.option2 }}
-                </div>
-              </div>
-
-              <div class="row mt-20">
-                <div class="col-md-6">
-                  <input type="radio" [value]="q.option3" [name]="i" [(ngModel)]="q.givenAnswer" /> {{ q.option3 }}
-                </div>
-                <div class="col-md-6">
-                  <input type="radio" [value]="q.option4" [name]="i" [(ngModel)]="q.givenAnswer" /> {{ q.option4 }}
-                </div>
+              <div style="margin-top: 10px;">
+                <label style="display:block; margin: 8px 0;" *ngFor="let opt of [
+                  {key: 'option1', label: q.option1},
+                  {key: 'option2', label: q.option2},
+                  {key: 'option3', label: q.option3},
+                  {key: 'option4', label: q.option4}
+                ]">
+                  <input type="radio" [name]="'q' + q.quesId" [value]="opt.label"
+                    [(ngModel)]="q.givenAnswer" />
+                  &nbsp;<span [innerHTML]="opt.label"></span>
+                </label>
               </div>
             </mat-card-content>
           </mat-card>
         </div>
 
-        <div class="container text-center mt-20 mb-20">
-          <button (click)="submitQuiz()" mat-raised-button color="primary" class="submit-btn">
+        <div class="text-center" style="margin-top: 20px;" *ngIf="questions">
+          <button mat-raised-button color="primary" class="submit-btn" (click)="submitQuiz()">
             Submit Quiz
           </button>
         </div>
       </div>
 
       <div class="col-md-2">
+        <!-- Timer / Progress -->
         <mat-card class="progress-card" style="margin-top: 70px">
           <mat-card-header>
             <mat-card-title>Progress</mat-card-title>
-            <mat-card-subtitle>Quiz will be automatically submitted when timer reaches to <b>0:0</b></mat-card-subtitle>
+            <mat-card-subtitle>
+              Auto-submit when timer reaches <b>0:0</b>
+            </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
             <h1 class="text-center">{{ getFormattedTime() }}</h1>
@@ -64,8 +53,45 @@
               mode="determinate"
               color="accent"
               style="margin: auto"
-              [value]="(timer / (this.questions.length * 2 * 60)) * 100"
+              [value]="(timer / (questions.length * 2 * 60)) * 100"
             ></mat-spinner>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Webcam Monitoring -->
+        <mat-card class="monitoring-card" style="margin-top: 20px">
+          <mat-card-header>
+            <mat-card-title>Monitoring</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+
+            <!-- Live webcam feed -->
+            <video id="webcamVideo" autoplay muted playsinline class="webcam-video"></video>
+            <p class="error-text" *ngIf="webcamError">{{ webcamError }}</p>
+
+            <!-- Screen recording status -->
+            <div class="recording-badge" [ngClass]="isRecording ? 'badge-active' : 'badge-inactive'">
+              <span class="recording-dot"></span>
+              <span *ngIf="isRecording">Screen Recording</span>
+              <span *ngIf="!isRecording && !screenError">Screen Share Off</span>
+              <span *ngIf="screenError">Screen Denied</span>
+            </div>
+            <p class="error-text" *ngIf="screenError">{{ screenError }}</p>
+
+            <!-- AI Proctoring status -->
+            <p class="ai-status" *ngIf="isAnalyzing">
+              🔍 AI analyzing...
+            </p>
+
+            <div class="proctoring-alert" *ngIf="!isAnalyzing && proctoringAlert">
+              <mat-icon>warning</mat-icon>
+              <span>{{ proctoringMessage }}</span>
+            </div>
+
+            <p class="ai-status" *ngIf="!isAnalyzing && !proctoringAlert && proctoringCaption">
+              ✅ {{ proctoringCaption }}
+            </p>
+
           </mat-card-content>
         </mat-card>
       </div>
@@ -73,7 +99,7 @@
   </div>
 </div>
 
-<!-- Show the result after quiz submission -->
+<!-- Result after submission -->
 <div class="bootstrap-wrapper animate__animated animate__fadeIn" *ngIf="isSubmit">
   <div class="row mt-20">
     <div class="col-md-6 offset-md-3">
@@ -87,7 +113,7 @@
           <h1>Questions Attempted: {{ attempted }}</h1>
         </mat-card-content>
         <mat-card-actions class="text-center">
-          <button mat-raised-button color="primary" class="result-btn">Print</button>
+          <button mat-raised-button color="primary" class="result-btn" onclick="window.print()">Print</button>
           <button mat-raised-button color="accent" [routerLink]="'/user-dashboard/0'" class="result-btn">Home</button>
         </mat-card-actions>
       </mat-card>

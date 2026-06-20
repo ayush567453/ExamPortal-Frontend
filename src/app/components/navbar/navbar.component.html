@@ -1,52 +1,110 @@
-<!-- <h1>this is navbar</h1> -->
-<mat-toolbar color="accent">
-  <a
-    routerLink="/"
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with menu icon"
-  >
-    <!-- <mat-icon>menu_book</mat-icon> -->
-  </a>
-  <span>Examportal</span>
-  <span class="example-spacer"></span>
-  <a
-    *ngIf="!isLoggedIn"
-    [routerLink]="'/login'"
-    mat-icon-button
-    class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon"
-  >
-    Login
-  </a>
+<nav class="navbar" [class.scrolled]="scrolled" [class.menu-open]="menuOpen" (click)="userDropOpen=false">
+  <div class="nav-glow-line"></div>
 
-  <a
-    *ngIf="!isLoggedIn"
-    [routerLink]="'/signup'"
-    mat-icon-button
-    class="example-icon favorite-icon mr20 ml20"
-    aria-label="Example icon-button with heart icon"
-  >
-    Register
-  </a>
+  <div class="nav-inner">
 
-  <a
-    (click)="logout()"
-    *ngIf="isLoggedIn"
-    mat-icon-button
-    class="example-icon favorite-icon mr20 ml20"
-    aria-label="Example icon-button with heart icon"
-  >
-    Logout
-  </a>
+    <!-- ── Logo ── -->
+    <a routerLink="/" class="nav-logo" (click)="closeMenus()">
+      <div class="logo-mark" *ngIf="!(isLoggedIn && schoolLogoUrl)">
+        <span class="logo-mark-letter">S</span>
+      </div>
+      <img *ngIf="isLoggedIn && schoolLogoUrl" [src]="schoolLogoUrl" class="school-logo-img" alt="logo"/>
+      <div class="logo-text-group">
+        <span class="logo-main">{{ (isLoggedIn && schoolName) ? schoolName : 'SmartSchool' }}</span>
+        <span class="logo-sub" *ngIf="!(isLoggedIn && schoolName)">EduPortal</span>
+      </div>
+    </a>
 
-  <button
-    *ngIf="isLoggedIn && user"
-    class="example-icon favorite-icon ml20"
-    mat-button
-    routerLink="/admin/profile"
-    aria-label="Example icon-button with heart icon"
-  >
-    {{ user.username }}
-  </button>
-</mat-toolbar>
+    <!-- ── Center nav links ── -->
+    <div class="nav-links" [class.open]="menuOpen">
+
+      <!-- Public links -->
+      <ng-container *ngIf="!isLoggedIn">
+        <a href="#features" class="nav-link" (click)="closeMenus()">
+          <span class="link-text">Features</span>
+        </a>
+        <a href="#pricing" class="nav-link" (click)="closeMenus()">
+          <span class="link-text">Pricing</span>
+        </a>
+        <a href="#testimonials" class="nav-link" (click)="closeMenus()">
+          <span class="link-text">Reviews</span>
+        </a>
+        <a href="#contact" class="nav-link" (click)="closeMenus()">
+          <span class="link-text">Contact</span>
+        </a>
+      </ng-container>
+
+      <!-- Logged-in: dashboard quick link -->
+      <ng-container *ngIf="isLoggedIn">
+        <a [routerLink]="dashboardLink" class="nav-link dash-link" (click)="closeMenus()">
+          <span class="link-icon">{{ roleIcon }}</span>
+          <span class="link-text">Dashboard</span>
+        </a>
+      </ng-container>
+
+      <!-- Mobile-only action buttons -->
+      <div class="mobile-actions" *ngIf="!isLoggedIn">
+        <a routerLink="/login" class="btn-ghost-sm" (click)="closeMenus()">Sign In</a>
+        <a routerLink="/signup" class="btn-primary-sm" (click)="closeMenus()">Get Started</a>
+      </div>
+      <div class="mobile-actions" *ngIf="isLoggedIn">
+        <a (click)="logout()" class="btn-ghost-sm" style="cursor:pointer">Logout</a>
+      </div>
+    </div>
+
+    <!-- ── Right section ── -->
+    <div class="nav-right">
+
+      <!-- Not logged in -->
+      <ng-container *ngIf="!isLoggedIn">
+        <a routerLink="/login" class="btn-ghost">Sign In</a>
+        <a routerLink="/signup" class="btn-primary">
+          Get Started
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+        </a>
+      </ng-container>
+
+      <!-- Logged in: user dropdown -->
+      <ng-container *ngIf="isLoggedIn">
+        <div class="user-menu" (click)="userDropOpen=!userDropOpen; $event.stopPropagation()" [class.open]="userDropOpen">
+          <div class="user-avatar">{{ userInitial }}</div>
+          <div class="user-meta">
+            <span class="user-name">{{ user?.username || user?.name }}</span>
+            <span class="user-role">{{ roleLabel }}</span>
+          </div>
+          <svg class="drop-caret" [class.rotated]="userDropOpen" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+
+          <!-- Dropdown panel -->
+          <div class="user-dropdown" [class.show]="userDropOpen" (click)="$event.stopPropagation()">
+            <div class="dropdown-header">
+              <div class="dropdown-avatar-lg">{{ userInitial }}</div>
+              <div>
+                <div class="dropdown-name">{{ user?.username || user?.name }}</div>
+                <div class="dropdown-email">{{ user?.email || '' }}</div>
+              </div>
+            </div>
+            <div class="dropdown-role-badge">
+              <span>{{ roleIcon }}</span> {{ roleLabel }}
+            </div>
+            <div class="dropdown-divider"></div>
+            <a [routerLink]="dashboardLink" class="dropdown-item" (click)="closeMenus()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Dashboard
+            </a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item logout-item" (click)="logout()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Logout
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- ── Hamburger ── -->
+    <button class="hamburger" (click)="menuOpen=!menuOpen; $event.stopPropagation()" [class.active]="menuOpen" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</nav>

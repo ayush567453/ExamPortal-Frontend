@@ -7,13 +7,15 @@ import baseUrl from './helper';
 })
 export class CategoryService {
   constructor(private _http: HttpClient) {}
-  //load all the cateogries
   public categories() {
     return this._http.get(`${baseUrl}/category/`);
   }
 
-  //add new category
-  public addCategory(category) {
+  public categoriesByTenant(tenantId: string) {
+    return this._http.get(`${baseUrl}/category/tenant/${tenantId}`);
+  }
+
+  public addCategory(category: any) {
     return this._http.post(`${baseUrl}/category/`, category);
   }
 }

@@ -1,0 +1,60 @@
+<div class="tl-wrapper">
+  <div class="tl-header">
+    <h1>🏫 All Schools</h1>
+    <a routerLink="/super-admin/tenants/new" class="btn-add">+ Add New School</a>
+  </div>
+
+  <div class="table-card" *ngIf="!loading">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Logo</th>
+          <th>School Name</th>
+          <th>Code</th>
+          <th>Admin</th>
+          <th>Contact</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of tenants; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>
+            <img *ngIf="t.logoUrl" [src]="'http://localhost:8080/logos/' + t.logoUrl" class="school-logo" alt="logo">
+            <div *ngIf="!t.logoUrl" class="no-logo">🏫</div>
+          </td>
+          <td>
+            <strong>{{ t.schoolName }}</strong><br>
+            <small>{{ t.email }}</small>
+          </td>
+          <td><code>{{ t.tenantCode }}</code></td>
+          <td>
+            {{ t.adminUsername }}<br>
+            <small>{{ t.adminEmail }}</small>
+          </td>
+          <td>{{ t.contactNumber }}</td>
+          <td>
+            <span class="badge" [class.active]="t.status==='ACTIVE'" [class.inactive]="t.status==='INACTIVE'">
+              {{ t.status }}
+            </span>
+          </td>
+          <td class="actions">
+            <a [routerLink]="['/super-admin/tenants', t.tenantId, 'edit']" class="btn-icon edit" title="Edit">✏️</a>
+            <button (click)="toggleStatus(t)" class="btn-icon toggle"
+                    [title]="t.status==='ACTIVE' ? 'Deactivate' : 'Activate'">
+              {{ t.status === 'ACTIVE' ? '🔒' : '🔓' }}
+            </button>
+            <button (click)="delete(t)" class="btn-icon del" title="Delete">🗑️</button>
+          </td>
+        </tr>
+        <tr *ngIf="tenants.length === 0">
+          <td colspan="8" style="text-align:center;padding:40px;color:#888">No schools found. Add your first school.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading schools...</div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryService } from 'src/app/services/category.service';
+import { LoginService } from 'src/app/services/login.service';
 import { QuizService } from 'src/app/services/quiz.service';
 import Swal from 'sweetalert2';
 
@@ -10,70 +10,70 @@ import Swal from 'sweetalert2';
   styleUrls: ['./add-quiz.component.css'],
 })
 export class AddQuizComponent implements OnInit {
-  categories = [];
+  categories: any[] = [];
+  loading = false;
+  role = '';
+  tenantId = '';
 
-  quizData = {
+  quizData: any = {
     title: '',
     description: '',
     maxMarks: '',
     numberOfQuestions: '',
     active: true,
-    category: {
-      cid: '',
-    },
+    category: { cid: '' },
   };
 
   constructor(
     private _cat: CategoryService,
-    private _snack: MatSnackBar,
-    private _quiz: QuizService
+    private _quiz: QuizService,
+    private _login: LoginService
   ) {}
 
   ngOnInit(): void {
-    this._cat.categories().subscribe(
-      (data: any) => {
-        //categories load
-        this.categories = data;
-        // console.log(this.categories);
-      },
+    this.role = this._login.getUserRole() || '';
+    this.tenantId = this._login.getTenantId();
 
-      (error) => {
-        console.log(error);
-        Swal.fire('Error!!', 'error in loading data from server', 'error');
-      }
-    );
+    const load$ =
+      this.role === 'SCHOOL_ADMIN' && this.tenantId
+        ? this._cat.categoriesByTenant(this.tenantId)
+        : this._cat.categories();
+
+    load$.subscribe({
+      next: (data: any) => (this.categories = data),
+      error: () => Swal.fire('Error', 'Could not load categories', 'error'),
+    });
   }
-  //
+
   addQuiz() {
-    if (this.quizData.title.trim() == '' || this.quizData.title == null) {
-      this._snack.open('Title Required !!', '', {
-        duration: 3000,
-      });
+    if (!this.quizData.title.trim()) {
+      Swal.fire('Validation', 'Quiz title is required', 'warning');
+      return;
+    }
+    if (!this.quizData.category.cid) {
+      Swal.fire('Validation', 'Please select a category', 'warning');
       return;
     }
 
-    //validation...
-
-    //call server
-    this._quiz.addQuiz(this.quizData).subscribe(
-      (data) => {
-        Swal.fire('Success', 'quiz is added', 'success');
+    this.loading = true;
+    this._quiz.addQuiz(this.quizData).subscribe({
+      next: () => {
+        this.loading = false;
+        Swal.fire('Success', 'Quiz added successfully!', 'success');
         this.quizData = {
           title: '',
           description: '',
           maxMarks: '',
           numberOfQuestions: '',
           active: true,
-          category: {
-            cid: '',
-          },
+          category: { cid: '' },
         };
       },
-
-      (error) => {
-        Swal.fire('Error!! ', 'Error while adding quiz', 'error');
-        console.log(error);
-      }
-    );
+      error: (err) => {
+        this.loading = false;
+        Swal.fire('Error', 'Failed to add quiz', 'error');
+        console.error(err);
+      },
+    });
   }
 }

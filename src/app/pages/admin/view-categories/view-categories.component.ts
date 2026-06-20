@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from 'src/app/services/login.service';
 import { CategoryService } from 'src/app/services/category.service';
 import Swal from 'sweetalert2';
 
@@ -8,23 +9,34 @@ import Swal from 'sweetalert2';
   styleUrls: ['./view-categories.component.css'],
 })
 export class ViewCategoriesComponent implements OnInit {
-  categories = [];
+  categories: any[] = [];
+  loading = true;
+  role = '';
+  tenantId = '';
 
-  constructor(private _category: CategoryService) {}
+  constructor(
+    private _category: CategoryService,
+    private _login: LoginService
+  ) {}
 
   ngOnInit(): void {
-    this._category.categories().subscribe(
-      (data: any) => {
-        //css
-        this.categories = data;
-        console.log(this.categories);
-      },
+    this.role = this._login.getUserRole() || '';
+    this.tenantId = this._login.getTenantId();
 
-      (error) => {
-        //
-        console.log(error);
-        Swal.fire('Error !!', 'Error in loading data', 'error');
-      }
-    );
+    const load$ =
+      this.role === 'SCHOOL_ADMIN' && this.tenantId
+        ? this._category.categoriesByTenant(this.tenantId)
+        : this._category.categories();
+
+    load$.subscribe({
+      next: (data: any) => {
+        this.categories = data;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        Swal.fire('Error', 'Could not load categories', 'error');
+      },
+    });
   }
 }

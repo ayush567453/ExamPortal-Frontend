@@ -1,365 +1,363 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ExamPortal | World's Best Exam Platform</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --primary-bg: #f1f3f4;
-      --accent: #4e54c8;
-      --highlight: #8f94fb;
-      --glass: rgba(255, 255, 255, 0.7);
-      --text-dark: #212121;
-      --text-muted: #444;
-      --bg-gradient: linear-gradient(135deg, #00bcd4, #3f51b5);
-      --hero-overlay: rgba(0, 0, 0, 0.6);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background: #24315A;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px 60px;
-      color: #fff;
-      background: #24315A;
-      position: relative;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #24315A;
-      z-index: 1;
-    }
-
-    .hero-container {
-      max-width: 1200px;
-      background:#083cf7;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-      padding: 50px;
-      border-radius: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-      z-index: 2;
-      animation: fadeIn 1.5s ease-in-out;
-    }
-
-    .hero-left, .hero-right {
-      flex: 1;
-      min-width: 300px;
-      padding: 20px;
-    }
-
-    .hero-left h1 {
-      font-size: 3.2rem;
-      margin-bottom: 15px;
-      color: #fff;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .tagline {
-      font-size: 1.3rem;
-      margin-bottom: 25px;
-      color: #fff;
-    }
-
-    .points {
-      font-size: 1rem;
-      margin-bottom: 30px;
-      color: #fff;
-    }
-
-    .points li {
-      margin-bottom: 8px;
-    }
-
-    .btn-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .btn {
-      padding: 14px 28px;
-      border: none;
-      border-radius: 30px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.3s ease;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-start { background: #00e676; color: #000; }
-    .btn-login { background: #ff4081; color: #fff; }
-    .btn-register { background: #2196f3; color: #fff; }
-
-    .btn:hover {
-      transform: scale(1.05);
-    }
-
-    .hero-right img {
-      width: 100%;
-      max-width: 400px;
-      animation: popIn 2s ease;
-    }
-
-    .section {
-      text-align: center;
-      padding: 60px 20px;
-      background-color: #083cf7;
-      color: var(--text-dark);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      margin: 40px 20px;
-    }
-
-    .section h2 {
-      font-size: 2.2rem;
-      margin-bottom: 20px;
-      color: var(--accent);
-    }
-
-    .section p {
-      max-width: 800px;
-      margin: auto;
-      color: var(--text-muted);
-      font-size: 1.1rem;
-    }
-
-    .section ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 30px;
-      max-width: 800px;
-      margin-inline: auto;
-      color: #333;
-      font-size: 1.1rem;
-      text-align: left;
-    }
-
-    .section ul li {
-      margin-bottom: 12px;
-    }
-
-    .access-fee {
-      margin-top: 25px;
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: #00bcd4;
-    }
-
-    .partners-section {
-      padding: 40px 20px;
-      background-color: #083cf7;
-      text-align: center;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      margin: 40px 20px;
-    }
-
-    .partners-section h2 {
-      font-size: 2.2rem;
-      margin-bottom: 20px;
-      color: var(--accent);
-    }
-
-    .partners-logo {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
-
-    .partner-logo {
-      text-align: center;
-    }
-
-    .partner-logo img {
-      width: 120px;
-      max-width: 100%;
-      opacity: 0.7;
-      transition: opacity 0.3s ease;
-    }
-
-    .partner-logo img:hover {
-      opacity: 1;
-    }
-
-    .partner-logo p {
-      margin-top: 8px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    footer {
-      background: #000;
-      padding: 30px 20px;
-      text-align: center;
-      color: #fff;
-      font-size: 0.95rem;
-      margin-top: 0;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    }
-
-    footer h3 {
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    footer a {
-      color: #80d8ff;
-      text-decoration: none;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes popIn {
-      0% { transform: scale(0.9); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    @media(max-width: 768px) {
-      .hero-container {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .hero-left h1 {
-        font-size: 2.4rem;
-      }
-
-      .btn-group {
-        justify-content: center;
-      }
-
-      .hero-right img {
-        max-width: 300px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <div class="hero-container">
-      <div class="hero-left">
-        <h1>🌍 World’s Best ExamPortal</h1>
-        <p class="tagline">Your gateway to smarter, faster & more reliable learning</p>
-        <ul class="points">
-          <li>✅ AI-Powered Quizzes & Exams</li>
-          <li>📊 Real-time Results & Analytics</li>
-          <li>🔐 Secure, Scalable & User-Friendly</li>
-          <li>🎯 Trusted by 1000+ Institutions</li>
-        </ul>
-        <div class="btn-group">
-          <button class="btn btn-start">🚀 Start Exam</button>
-          <button class="btn btn-login"   [routerLink]="'/login'">🔐 Login</button>
-          <button class="btn btn-register" [routerLink]="'/signup'">📝 Register</button>
-        </div>
-      </div>
-      <div class="hero-right">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="Student Illustration">
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY CHOOSE US SECTION -->
-  <section class="section">
-    <h2>Why Choose ExamPortal?</h2>
-    <p>
-      We don’t just help you take exams — we help you conquer them.  
-      With AI-driven analysis, user-friendly experience, and rock-solid performance,  
-      we are redefining digital education for the next generation.
-    </p>
-    <p class="access-fee">💰 Access Fee: Just ₹499/year — Unlimited Exams!</p>
-  </section>
-
-  <!-- SMART FEATURES SECTION -->
-  <section class="section">
-    <h2>🚀 Our Smart Features</h2>
-    <p>
-      ExamPortal isn’t just about exams – it’s your complete career toolkit powered by AI!  
-      Explore advanced features built to help you succeed in studies and career.
-    </p>
-
-    <ul>
-      <li>✅ <strong>Resume Shortlisting with ATS:</strong> Upload your resume and get AI-based feedback & shortlisting based on real hiring standards.</li>
-      <li>🤖 <strong>AI-Powered Job Matching:</strong> Discover career opportunities that fit your skills and profile – powered by machine learning.</li>
-      <li>💻 <strong>Online Coding Test with Video Recording:</strong> Attempt secure coding rounds with real-time webcam monitoring.</li>
-      <li>🎥 <strong>AI-Based Proctoring:</strong> No human required! Our AI proctors track suspicious behavior automatically.</li>
-      <li>📈 <strong>Performance Analytics:</strong> Know your strengths & weaknesses after every test with detailed AI insights.</li>
-    </ul>
-  </section>
-
-  <!-- PARTNERS SECTION -->
-  <section class="partners-section">
-    <h2>Our Trusted Partners</h2>
-    <div class="partners-logo">
-      <div class="partner-logo">
-        <img src="https://wallpaperaccess.com/full/8410995.jpg" alt="IIT Delhi">
-        <p>IIT Delhi</p>
-      </div>
-      <div class="partner-logo">
-        <img src="https://images.unsplash.com/photo-1622397333309-3056849bc70b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" alt="Harvard University">
-        <p>Harvard University</p>
-      </div>
-      <div class="partner-logo">
-        <img src="https://tse2.mm.bing.net/th?id=OIP.jysJnkNi7Ocnv5aAikvD7wHaEo&pid=Api" alt="Stanford University">
-        <p>Stanford University</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <h3>Follow Us on Social Media</h3>
-    <p>© 2025 ExamPortal, All Rights Reserved | <a href="#">Privacy Policy</a></p>
-    <p><strong>Contact Us:</strong> Ayush | Mobile: 6394528249 | Email: <a href="mailto:amaddheshiya2003@gmail.com">amaddheshiya2003@gmail.com</a></p>
-    
-    <!-- CEO & Co-Founder Section -->
- <!-- CEO & Co-Founder Section -->
-<div class="ceo-info">
-  <h4>CEO & Co-Founder</h4>
-  <div class="ceo-details">
-    <img src="https://images.unsplash.com/photo-1622397333309-3056849bc70b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" alt="Abhishek Upadhyay" class="ceo-img" />
-    <p><strong>Abhishek Upadhyay</strong></p>
-    <p>CEO & Co-Founder</p>
-  </div>
+<!-- OFFER BANNER -->
+<div class="offer-banner">
+  🎉 Diwali Bumper Offer! Starting at just <strong>₹299/year</strong> — Limited time only!
+  <a routerLink="/signup" class="banner-cta">Register Now →</a>
 </div>
 
-  </footer>
-  
-  
+<!-- HERO SECTION -->
+<section class="hero" id="hero">
+  <!-- Animated background blobs -->
+  <div class="hero-blob b1"></div>
+  <div class="hero-blob b2"></div>
+  <div class="hero-blob b3"></div>
+  <!-- Floating particles -->
+  <div class="particles">
+    <span class="p p1">📚</span><span class="p p2">🎓</span>
+    <span class="p p3">📝</span><span class="p p4">🏆</span>
+    <span class="p p5">💡</span><span class="p p6">📊</span>
+  </div>
+  <!-- Grid overlay -->
+  <div class="hero-grid"></div>
 
-</body>
-</html>
+  <div class="hero-container">
+    <!-- Left content -->
+    <div class="hero-left">
+      <span class="badge hero-badge">🚀 Next-Gen Exam Platform</span>
+      <h1 class="hero-h1">
+        Smart School<br/>
+        <span class="typewriter-wrap">
+          <span class="tw-text">{{ typewriterText }}</span><span class="tw-cursor">|</span>
+        </span>
+        <br/>&amp; Online Exams
+      </h1>
+      <p class="tagline">
+        Automate attendance, conduct AI-proctored exams, manage students &amp; fees —
+        all from one powerful dashboard.
+      </p>
+      <div class="btn-group">
+        <button class="btn btn-primary" routerLink="/signup">
+          🏫 Register Your School
+          <span class="btn-shine"></span>
+        </button>
+        <button class="btn btn-outline" routerLink="/login">🔐 Login</button>
+      </div>
+      <!-- Trust row -->
+      <div class="trust-row">
+        <div class="trust-item"><span>⭐⭐⭐⭐⭐</span><small>500+ Schools</small></div>
+        <div class="trust-divider"></div>
+        <div class="trust-item"><span>🔒</span><small>Secure & Encrypted</small></div>
+        <div class="trust-divider"></div>
+        <div class="trust-item"><span>⚡</span><small>Free Trial</small></div>
+      </div>
+    </div>
+
+    <!-- Right: floating cards -->
+    <div class="hero-right">
+      <div class="hero-card-grid">
+        <div class="mini-card float-1">
+          <span>📊</span>
+          <p>Live Analytics</p>
+          <small>Real-time insights</small>
+        </div>
+        <div class="mini-card accent float-2">
+          <span>🤖</span>
+          <p>AI Proctoring</p>
+          <small>Zero cheating</small>
+        </div>
+        <div class="mini-card float-3">
+          <span>📚</span>
+          <p>Digital Exams</p>
+          <small>Anywhere, anytime</small>
+        </div>
+        <div class="mini-card accent float-4">
+          <span>🏆</span>
+          <p>Leaderboards</p>
+          <small>Motivate students</small>
+        </div>
+      </div>
+      <!-- Glow ring behind cards -->
+      <div class="card-glow"></div>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <div class="scroll-dot"></div>
+    <small>Scroll to explore</small>
+  </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <h2>{{ s0 }}+</h2>
+      <p>Schools Enrolled</p>
+    </div>
+    <div class="stat-item">
+      <h2>{{ formatK(s1) }}</h2>
+      <p>Students Using</p>
+    </div>
+    <div class="stat-item">
+      <h2>{{ formatK(s2) }}</h2>
+      <p>Exams Conducted</p>
+    </div>
+    <div class="stat-item">
+      <h2>{{ s3 }}%</h2>
+      <p>Uptime Guaranteed</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="section features-section" id="features">
+  <div class="section-header reveal">
+    <span class="section-tag">Features</span>
+    <h2>Everything Your School Needs</h2>
+    <p>One platform to run your entire institution — no juggling multiple tools.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal" style="--d:.05s">
+      <div class="feature-icon" style="background:#e8f5e9">📅</div>
+      <h3>Smart Attendance</h3>
+      <p>Automated daily attendance with parent SMS/email notifications in real-time.</p>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" style="--d:.1s">
+      <div class="feature-icon" style="background:#e3f2fd">🤖</div>
+      <h3>AI Proctoring</h3>
+      <p>Live webcam monitoring with AI-powered cheating detection during online exams.</p>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" style="--d:.15s">
+      <div class="feature-icon" style="background:#fff3e0">📊</div>
+      <h3>Real-time Analytics</h3>
+      <p>Auto-generated progress cards, attendance sheets and performance dashboards.</p>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" style="--d:.2s">
+      <div class="feature-icon" style="background:#f3e5f5">💸</div>
+      <h3>Fee Management</h3>
+      <p>Online fee collection with automated reminders, receipts and reports.</p>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" style="--d:.25s">
+      <div class="feature-icon" style="background:#fce4ec">🏆</div>
+      <h3>Leaderboards</h3>
+      <p>Motivate students with live rankings and performance leaderboards after every exam.</p>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" style="--d:.3s">
+      <div class="feature-icon" style="background:#e0f7fa">🌐</div>
+      <h3>Parent Portal</h3>
+      <p>Keep parents engaged with live updates via SMS, Email and in-app notifications.</p>
+      <div class="card-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="section-header light reveal">
+    <span class="section-tag-light">Process</span>
+    <h2>Up &amp; Running in 3 Steps</h2>
+  </div>
+  <div class="steps-row">
+    <div class="step reveal" style="--d:.05s">
+      <div class="step-num">1</div>
+      <h3>Register Your School</h3>
+      <p>Sign up in 2 minutes. No credit card required for the free trial.</p>
+    </div>
+    <div class="step-arrow reveal" style="--d:.1s">→</div>
+    <div class="step reveal" style="--d:.15s">
+      <div class="step-num">2</div>
+      <h3>Add Students &amp; Teachers</h3>
+      <p>Bulk import via Excel or add manually. Set roles &amp; permissions instantly.</p>
+    </div>
+    <div class="step-arrow reveal" style="--d:.2s">→</div>
+    <div class="step reveal" style="--d:.25s">
+      <div class="step-num">3</div>
+      <h3>Start Conducting Exams</h3>
+      <p>Create quizzes, schedule exams and let AI handle the proctoring for you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING SECTION -->
+<section class="section pricing-section" id="pricing">
+  <div class="section-header reveal">
+    <span class="section-tag">Pricing</span>
+    <h2>Simple, Transparent Pricing</h2>
+    <p>No hidden fees. Cancel anytime.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal" style="--d:.05s">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">₹299<span>/year</span></div>
+      <ul class="plan-features">
+        <li>✅ Up to 100 Students</li>
+        <li>✅ Online Exams</li>
+        <li>✅ Basic Reports</li>
+        <li>✅ Email Support</li>
+        <li>❌ AI Proctoring</li>
+        <li>❌ Parent Portal</li>
+      </ul>
+      <button class="btn btn-outline-dark" routerLink="/signup">Get Started</button>
+    </div>
+    <div class="pricing-card popular reveal" style="--d:.1s">
+      <div class="popular-badge">⭐ Most Popular</div>
+      <div class="plan-name">School</div>
+      <div class="plan-price">₹999<span>/year</span></div>
+      <ul class="plan-features">
+        <li>✅ Up to 1000 Students</li>
+        <li>✅ Online Exams + Scheduling</li>
+        <li>✅ Advanced Analytics</li>
+        <li>✅ AI Proctoring</li>
+        <li>✅ Parent Portal</li>
+        <li>✅ Priority Support</li>
+      </ul>
+      <button class="btn btn-primary" routerLink="/signup">Get Started</button>
+    </div>
+    <div class="pricing-card reveal" style="--d:.15s">
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-price">Custom</div>
+      <ul class="plan-features">
+        <li>✅ Unlimited Students</li>
+        <li>✅ All Features</li>
+        <li>✅ Custom Branding</li>
+        <li>✅ Dedicated Server</li>
+        <li>✅ API Access</li>
+        <li>✅ 24/7 Support</li>
+      </ul>
+      <button class="btn btn-outline-dark">Contact Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonials">
+  <div class="section-header light reveal">
+    <span class="section-tag-light">Testimonials</span>
+    <h2>What Schools Say About Us</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal" style="--d:.05s">
+      <div class="quote-mark">"</div>
+      <p>ExamPortal transformed how we conduct exams. The AI proctoring feature caught 3 cheating attempts in the very first exam. Incredible!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">AK</div>
+        <div><strong>Ankit Kumar</strong><br/><small>Principal, AKTU College</small></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal" style="--d:.1s">
+      <div class="quote-mark">"</div>
+      <p>The leaderboard feature motivates students tremendously. Our average test scores went up by 22% within the first month of use.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">PS</div>
+        <div><strong>Priya Sharma</strong><br/><small>HOD, DDU University</small></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal" style="--d:.15s">
+      <div class="quote-mark">"</div>
+      <p>Setup was done in under 10 minutes. Support team is excellent. Best investment we made for our school management this year.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">RV</div>
+        <div><strong>Rohit Verma</strong><br/><small>Admin, MMMUT</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CEO SECTION -->
+<section class="ceo-section reveal">
+  <div class="ceo-inner">
+    <img src="assets/updahyay.png" alt="Prabhakar Upadhyay" class="ceo-img"/>
+    <div class="ceo-text">
+      <span class="section-tag">Founder's Note</span>
+      <h2>Prabhakar Upadhyay</h2>
+      <p class="ceo-title">Founder &amp; CEO, ExamPortal</p>
+      <p class="ceo-quote">"Our mission is to bring innovation to every classroom. ExamPortal is designed to empower schools — no matter the size — with the tools they deserve to deliver quality education."</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTED PARTNERS -->
+<section class="section partners-section">
+  <div class="section-header reveal">
+    <span class="section-tag">Partners</span>
+    <h2>Trusted by Leading Institutions</h2>
+  </div>
+  <div class="partners-scroll">
+    <div class="partners-track">
+      <div class="partner-logo"><img src="https://www.clipartmax.com/png/small/147-1471121_aktu-logo-dr-a-p-j-abdul-kalam-technical-university.png" alt="AKTU"/><p>AKTU</p></div>
+      <div class="partner-logo"><img src="https://www.motachashma.com/images/Entrance%20Exams/madan-mohan-malaviya-university-gorakhpur-admission.jpg" alt="MMMUT"/><p>MMMUT</p></div>
+      <div class="partner-logo"><img src="https://www.vhv.rs/dpng/d/584-5841441_stanford-university-logo-png-transparent-png.png" alt="Stanford"/><p>Stanford</p></div>
+      <div class="partner-logo"><img src="https://tse2.mm.bing.net/th?id=OIP._DdGllXFk9csUj8Q5IKDSwAAAA&pid=Api&P=0&h=180" alt="IIT Delhi"/><p>IIT Delhi</p></div>
+      <div class="partner-logo"><img src="https://tse2.mm.bing.net/th?id=OIP.DK8kFChsvPWS_zFcYP4lKwAAAA&pid=Api&P=0&h=180" alt="DDU"/><p>DDU</p></div>
+      <div class="partner-logo"><img src="https://www.clipartmax.com/png/small/147-1471121_aktu-logo-dr-a-p-j-abdul-kalam-technical-university.png" alt="AKTU"/><p>AKTU</p></div>
+      <div class="partner-logo"><img src="https://www.motachashma.com/images/Entrance%20Exams/madan-mohan-malaviya-university-gorakhpur-admission.jpg" alt="MMMUT"/><p>MMMUT</p></div>
+      <div class="partner-logo"><img src="https://www.vhv.rs/dpng/d/584-5841441_stanford-university-logo-png-transparent-png.png" alt="Stanford"/><p>Stanford</p></div>
+      <div class="partner-logo"><img src="https://tse2.mm.bing.net/th?id=OIP._DdGllXFk9csUj8Q5IKDSwAAAA&pid=Api&P=0&h=180" alt="IIT Delhi"/><p>IIT Delhi</p></div>
+      <div class="partner-logo"><img src="https://tse2.mm.bing.net/th?id=OIP.DK8kFChsvPWS_zFcYP4lKwAAAA&pid=Api&P=0&h=180" alt="DDU"/><p>DDU</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>📘 ExamPortal</h3>
+      <p>Empowering schools with smart technology since 2024.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <a routerLink="/login">Login</a>
+      <a routerLink="/signup">Register</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+    <div class="footer-contact">
+      <h4>Contact Us</h4>
+      <p>📞 Ayush — 6394528249</p>
+      <p>📧 <a href="mailto:amaddheshiya2003@gmail.com">amaddheshiya2003@gmail.com</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 ExamPortal. All rights reserved.</div>
+</footer>
+
+<!-- CHATBOT FAB -->
+<div class="chatbot-fab" (click)="toggleChatbot()" [class.open]="isChatbotOpen">
+  <i class="material-icons">{{ isChatbotOpen ? 'close' : 'chat' }}</i>
+</div>
+
+<!-- CHATBOT WINDOW -->
+<div class="chatbot-window" [class.visible]="isChatbotOpen">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div>
+      <strong>Exam Assistant</strong>
+      <span class="chat-status">● Online</span>
+    </div>
+  </div>
+  <div class="chat-messages" #chatMessages>
+    <div class="chat-welcome" *ngIf="messages.length === 0">
+      <p>👋 Hi! I'm your Exam Assistant.</p>
+      <p>Ask me anything about exams, results, or the portal!</p>
+    </div>
+    <div *ngFor="let msg of messages" class="chat-bubble"
+         [class.user-bubble]="msg.role === 'user'"
+         [class.bot-bubble]="msg.role === 'bot'">
+      <span>{{ msg.text }}</span>
+    </div>
+    <div class="chat-bubble bot-bubble typing" *ngIf="isLoading">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </div>
+  <div class="chat-input-row">
+    <input [(ngModel)]="chatQuestion" placeholder="Type a message..."
+           (keydown.enter)="sendQuestion()" [disabled]="isLoading"/>
+    <button (click)="sendQuestion()" [disabled]="isLoading || !chatQuestion.trim()">
+      <i class="material-icons">send</i>
+    </button>
+  </div>
+</div>

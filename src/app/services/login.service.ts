@@ -57,4 +57,9 @@ export class LoginService {
     let user = this.getUser();
     return user?.authorities[0]?.authority || null;
   }
+
+  public getTenantId(): string {
+    let user = this.getUser();
+    return user?.tenantId || '';
+  }
 }

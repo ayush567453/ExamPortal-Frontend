@@ -1,0 +1,128 @@
+<div class="tt-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">📅 Timetable Manager</h1>
+      <p class="page-sub">Build and manage weekly class schedules</p>
+    </div>
+    <div class="header-actions">
+      <label class="toggle-edit" [class.active]="editMode">
+        <input type="checkbox" [(ngModel)]="editMode" />
+        <span class="toggle-track">
+          <span class="toggle-thumb"></span>
+        </span>
+        {{ editMode ? 'Edit Mode ON' : 'Edit Mode OFF' }}
+      </label>
+      <button class="print-btn" (click)="printTimetable()">🖨 Print</button>
+    </div>
+  </div>
+
+  <!-- Class Selector -->
+  <div class="class-selector">
+    <div class="selector-wrap">
+      <label>Class</label>
+      <select [(ngModel)]="selectedClass" (ngModelChange)="onClassChange()" class="sel-input">
+        <option value="">-- Select Class --</option>
+        <option *ngFor="let c of classes" [value]="c.id">
+          {{ c.name }}{{ c.section ? ' – Sec ' + c.section : '' }}
+        </option>
+      </select>
+    </div>
+    <div class="selector-info" *ngIf="editMode">
+      <span class="info-badge">✏️ Click any cell to edit it</span>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item" *ngFor="let sub of subjectList | slice:0:8">
+      <div class="legend-dot" [style.background]="subjectColors[sub]"></div>
+      <span>{{ sub }}</span>
+    </div>
+  </div>
+
+  <!-- Timetable Grid -->
+  <div class="tt-wrapper">
+    <div class="tt-scroll">
+      <table class="tt-table">
+        <thead>
+          <tr>
+            <th class="time-col">Time</th>
+            <th *ngFor="let day of days" class="day-col">{{ day }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let period of periods"
+              [class.break-row]="period.isBreak">
+            <td class="time-cell">
+              <div class="period-label">{{ period.label }}</div>
+              <div class="period-time">{{ period.time }}</div>
+            </td>
+            <ng-container *ngIf="!period.isBreak">
+              <td *ngFor="let day of days"
+                  class="slot-cell"
+                  [class.edit-mode]="editMode"
+                  [class.has-data]="getSlot(day, period.label).subject"
+                  (click)="openEdit(day, period.label)">
+                <div class="slot-content"
+                     *ngIf="getSlot(day, period.label).subject"
+                     [style.background]="getSlot(day, period.label).color + '20'"
+                     [style.border-left]="'4px solid ' + getSlot(day, period.label).color">
+                  <div class="slot-subject" [style.color]="getSlot(day, period.label).color">
+                    {{ getSlot(day, period.label).subject }}
+                  </div>
+                  <div class="slot-teacher" *ngIf="getSlot(day, period.label).teacher">
+                    👤 {{ getSlot(day, period.label).teacher }}
+                  </div>
+                </div>
+                <div class="slot-empty" *ngIf="!getSlot(day, period.label).subject && editMode">
+                  <span>＋</span>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container *ngIf="period.isBreak">
+              <td [attr.colspan]="days.length" class="break-cell">
+                🔔 {{ period.label }} &nbsp;|&nbsp; {{ period.time }}
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" *ngIf="editingCell" (click)="editingCell = null"></div>
+  <div class="edit-modal" *ngIf="editingCell">
+    <div class="modal-header">
+      <h3>Edit Slot</h3>
+      <div class="modal-meta">{{ editingCell.day }} · {{ editingCell.period }}</div>
+    </div>
+
+    <div class="modal-body">
+      <div class="mfield">
+        <label>Subject</label>
+        <select [(ngModel)]="editSlot.subject" class="m-input" (change)="onSubjectChange()">
+          <option value="">-- Free Period --</option>
+          <option *ngFor="let s of subjectList" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label>Teacher Name (Optional)</label>
+        <input [(ngModel)]="editSlot.teacher" class="m-input" placeholder="e.g. Mr. Sharma" />
+      </div>
+      <div class="color-preview" *ngIf="editSlot.subject" [style.background]="editSlot.color + '20'" [style.border-left]="'4px solid ' + editSlot.color">
+        <strong [style.color]="editSlot.color">{{ editSlot.subject }}</strong>
+        <span *ngIf="editSlot.teacher">· {{ editSlot.teacher }}</span>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="clear-btn" (click)="clearSlot()">🗑 Clear</button>
+      <button class="cancel-btn" (click)="editingCell = null">Cancel</button>
+      <button class="save-btn" (click)="saveSlot()">✓ Save</button>
+    </div>
+  </div>
+
+</div>

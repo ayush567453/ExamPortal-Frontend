@@ -1,22 +1,31 @@
-<mat-card class="category-card animate__animated animate__fadeIn animate__delay-1s">
-  <mat-card-header class="category-header">
-    <h1>All Categories</h1>
-  </mat-card-header>
-  
-  <mat-card-content>
-    <mat-list>
-      <mat-list-item *ngFor="let c of categories" class="category-item">
-        <mat-icon mat-list-icon class="category-icon">category</mat-icon>
-        <div mat-line class="category-title">{{ c.title }}</div>
-        <div mat-line class="category-description">{{ c.description }}</div>
-        <mat-divider></mat-divider>
-      </mat-list-item>
-    </mat-list>
-  </mat-card-content>
+<div class="vc-page">
 
-  <mat-card-actions class="text-center">
-    <button routerLink="/admin/add-category" mat-raised-button color="accent" class="add-category-btn">
-      Add New Category
-    </button>
-  </mat-card-actions>
-</mat-card>
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Categories</h1>
+      <p class="page-subtitle">{{ role === 'SCHOOL_ADMIN' ? 'Your school\'s exam categories' : 'All categories' }}</p>
+    </div>
+    <a routerLink="/admin/add-category" class="add-btn">➕ Add Category</a>
+  </div>
+
+  <div *ngIf="loading" class="loading-box">
+    <div class="spinner"></div><span>Loading…</span>
+  </div>
+
+  <div *ngIf="!loading && categories.length === 0" class="empty-box">
+    <div class="empty-icon">📂</div>
+    <p>No categories yet</p>
+    <a routerLink="/admin/add-category" class="add-btn-sm">Add your first category</a>
+  </div>
+
+  <div *ngIf="!loading && categories.length > 0" class="cat-grid">
+    <div class="cat-card" *ngFor="let c of categories">
+      <div class="cat-icon">📂</div>
+      <div class="cat-body">
+        <strong class="cat-title">{{ c.title }}</strong>
+        <p class="cat-desc">{{ c.description || 'No description' }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

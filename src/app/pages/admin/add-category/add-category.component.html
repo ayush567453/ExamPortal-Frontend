@@ -1,47 +1,50 @@
-<mat-card class="add-category-card animate__animated animate__fadeIn animate__delay-1s">
-  <mat-card-header class="add-category-header">
-    <h1>Add New Category</h1>
-  </mat-card-header>
+<div class="ac-page">
 
-  <mat-card-content>
-    <div class="bootstrap-wrapper">
-      <div class="row">
-        <div class="col-md-8 offset-md-2">
-          <form (ngSubmit)="formSubmit()" class="add-category-form">
-            <mat-form-field class="full-width" appearance="outline">
-              <mat-label>Title</mat-label>
-              <input
-                required
-                autofocus
-                type="text"
-                name="title"
-                matInput
-                placeholder="Enter here"
-                [(ngModel)]="category.title"
-                class="form-control"
-              />
-            </mat-form-field>
-
-            <mat-form-field class="full-width" appearance="outline">
-              <mat-label>Description</mat-label>
-              <textarea
-                name="description"
-                matInput
-                placeholder="Enter Category Description"
-                [(ngModel)]="category.description"
-                rows="8"
-                class="form-control"
-              ></textarea>
-            </mat-form-field>
-
-            <div class="text-center mt-4">
-              <button mat-raised-button color="accent" class="submit-btn">
-                Add
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Add Category</h1>
+      <p class="page-subtitle">Create a new exam category</p>
     </div>
-  </mat-card-content>
-</mat-card>
+    <div class="header-badge" *ngIf="role === 'SCHOOL_ADMIN'">
+      <span>🏫</span> School Category
+    </div>
+  </div>
+
+  <div class="form-card">
+    <form (ngSubmit)="formSubmit()" autocomplete="off">
+
+      <div class="form-group">
+        <label class="form-label">Category Title <span class="required">*</span></label>
+        <input
+          [(ngModel)]="category.title"
+          name="title"
+          type="text"
+          placeholder="e.g. Mathematics, Science"
+          class="form-input"
+          autofocus
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea
+          [(ngModel)]="category.description"
+          name="description"
+          placeholder="Brief description of this category (optional)"
+          class="form-input form-textarea"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-btn" [disabled]="loading">
+          <span *ngIf="!loading">➕ Add Category</span>
+          <span *ngIf="loading" class="spinner-inline"></span>
+        </button>
+        <a routerLink="/admin/categories" class="cancel-link">← Back to categories</a>
+      </div>
+
+    </form>
+  </div>
+
+</div>

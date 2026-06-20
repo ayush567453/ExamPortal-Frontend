@@ -1,45 +1,43 @@
-<mat-card class="sidebar-card">
-  <mat-action-list>
-    <div mat-subheader class="menu-header">📚 Admin Menu</div>
+<div class="sidebar-wrap">
 
-    <button mat-list-item routerLink="/admin" class="menu-btn">
-      <mat-icon mat-list-icon>home</mat-icon>
-      <span>Home</span>
-    </button>
+  <!-- School/Admin Header -->
+  <div class="sidebar-header">
+    <div *ngIf="role === 'SCHOOL_ADMIN'" class="school-header">
+      <img *ngIf="schoolLogoUrl" [src]="schoolLogoUrl" class="school-logo" alt="logo"/>
+      <div *ngIf="!schoolLogoUrl" class="logo-placeholder">🏫</div>
+      <div class="school-info">
+        <strong>{{ schoolName || 'School Admin' }}</strong>
+        <small>{{ adminUsername }}</small>
+      </div>
+    </div>
+    <div *ngIf="role !== 'SCHOOL_ADMIN'" class="admin-header">
+      <div class="admin-icon">📚</div>
+      <div class="admin-info">
+        <strong>Admin Panel</strong>
+        <small>{{ adminUsername }}</small>
+      </div>
+    </div>
+  </div>
 
-    <button mat-list-item routerLink="/admin/profile" class="menu-btn">
-      <mat-icon mat-list-icon>account_circle</mat-icon>
-      <span>Profile</span>
-    </button>
+  <!-- Nav Items -->
+  <nav class="sidebar-nav">
+    <a
+      *ngFor="let item of navItems"
+      [routerLink]="item.link"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: item.link === '/admin' || item.link === '/school-admin/dashboard' }"
+      class="nav-item"
+    >
+      <span class="nav-icon">{{ item.icon }}</span>
+      <span class="nav-label">{{ item.label }}</span>
+    </a>
+  </nav>
 
-    <button mat-list-item routerLink="/admin/categories" class="menu-btn">
-      <mat-icon mat-list-icon>list</mat-icon>
-      <span>Categories</span>
+  <!-- Logout -->
+  <div class="sidebar-footer">
+    <button class="logout-btn" (click)="logout()">
+      🚪 Logout
     </button>
+  </div>
 
-    <button mat-list-item routerLink="/admin/add-category" class="menu-btn">
-      <mat-icon mat-list-icon>add_circle_outline</mat-icon>
-      <span>Add Category</span>
-    </button>
-
-    <button mat-list-item routerLink="/admin/quizzes" class="menu-btn">
-      <mat-icon mat-list-icon>quiz</mat-icon>
-      <span>Quizzes</span>
-    </button>
-
-    <button mat-list-item routerLink="/admin/add-quiz" class="menu-btn">
-      <mat-icon mat-list-icon>add</mat-icon>
-      <span>Add Quiz</span>
-    </button>
-
-    <button mat-list-item routerLink="/admin/quiz-result" class="menu-btn">
-      <mat-icon mat-list-icon>check_circle</mat-icon>
-      <span>Quiz Result</span>
-    </button>
-
-    <button mat-list-item routerLink="/logout" class="menu-btn logout-btn">
-      <mat-icon mat-list-icon>logout</mat-icon>
-      <span>Logout</span>
-    </button>
-  </mat-action-list>
-</mat-card>
+</div>

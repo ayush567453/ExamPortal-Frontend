@@ -1,53 +1,67 @@
-<mat-card class="mt10 mr20 ml20" *ngFor="let q of quizzes">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>
-      {{ q.title }}
-    </mat-card-title>
-    <mat-card-subtitle>
-      {{ q.category.title }}
-    </mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p>{{ q.description }}</p>
-  </mat-card-content>
-  <mat-card-action>
-    <button
-      [routerLink]="'/admin/view-questions/' + q.qId + '/' + q.title"
-      mat-flat-button
-      color="accent"
-    >
-      Questions
-    </button>
-    <button mat-stroked-button color="accent" class="ml20">
-      Max Marks: {{ q.maxMarks }}
-    </button>
-    <button mat-stroked-button color="accent" class="ml20">
-      Questions: {{ q.numberOfQuestions }}
-    </button>
-    <button
-      [routerLink]="'/admin/quiz/' + q.qId"
-      mat-flat-button
-      color="accent"
-      class="ml20"
-    >
-      Update
-    </button>
-    <button mat-flat-button color="accent" class="ml20">Attempts</button>
+<div class="vq-page">
 
-    <button
-      mat-flat-button
-      color="warn"
-      class="ml10"
-      (click)="deleteQuiz(q.qId)"
-    >
-      Delete
-    </button>
-  </mat-card-action>
-</mat-card>
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Quizzes</h1>
+      <p class="page-subtitle">{{ role === 'SCHOOL_ADMIN' ? 'Your school\'s quizzes' : 'All quizzes' }}</p>
+    </div>
+    <a routerLink="/admin/add-quiz" class="add-btn">✚ Add Quiz</a>
+  </div>
 
-<div class="container text-center mt20">
-  <button routerLink="/admin/add-quiz" mat-raised-button color="accent">
-    Add New Quiz
-  </button>
+  <!-- Search -->
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input [(ngModel)]="searchTerm" placeholder="Search quizzes or categories…" class="search-input" />
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-box">
+    <div class="spinner"></div>
+    <span>Loading quizzes…</span>
+  </div>
+
+  <!-- Empty -->
+  <div *ngIf="!loading && filtered.length === 0" class="empty-box">
+    <div class="empty-icon">📝</div>
+    <p>No quizzes found</p>
+    <a routerLink="/admin/add-quiz" class="add-btn-sm">Add your first quiz</a>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading && filtered.length > 0" class="table-card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Max Marks</th>
+          <th>Questions</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let q of filtered; let i = index">
+          <td class="idx">{{ i + 1 }}</td>
+          <td class="quiz-title">{{ q.title }}</td>
+          <td><span class="cat-badge">{{ q.category?.title }}</span></td>
+          <td>{{ q.maxMarks }}</td>
+          <td>{{ q.numberOfQuestions }}</td>
+          <td>
+            <span class="status-badge" [class.active]="q.active" [class.draft]="!q.active">
+              {{ q.active ? 'Published' : 'Draft' }}
+            </span>
+          </td>
+          <td class="actions">
+            <a [routerLink]="'/admin/view-questions/' + q.qId + '/' + q.title" class="action-link blue" title="Questions">❓</a>
+            <a [routerLink]="'/admin/quiz/' + q.qId" class="action-link green" title="Edit">✏️</a>
+            <button (click)="deleteQuiz(q.qId)" class="action-link red" title="Delete">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>

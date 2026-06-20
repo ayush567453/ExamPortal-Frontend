@@ -18,6 +18,10 @@ export class QuizresultService {
 
   constructor(private http: HttpClient) { }
   public getResultUser(): Observable<QuizResult[]> {
-  return this.http.get<QuizResult[]>(`${baseUrl}/quiz-results/allUsers`);
+    return this.http.get<QuizResult[]>(`${baseUrl}/quiz-results/allUsers`);
+  }
+
+  public getResultsByTenant(tenantId: string): Observable<QuizResult[]> {
+    return this.http.get<QuizResult[]>(`${baseUrl}/quiz-results/tenant/${tenantId}`);
   }
 }

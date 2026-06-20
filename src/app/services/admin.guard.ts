@@ -23,7 +23,8 @@ export class AdminGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.login.isLoggedIn() && this.login.getUserRole() == 'ADMIN') {
+    const role = this.login.getUserRole();
+    if (this.login.isLoggedIn() && (role === 'ADMIN' || role === 'SCHOOL_ADMIN')) {
       return true;
     }
 

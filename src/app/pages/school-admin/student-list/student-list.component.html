@@ -1,0 +1,86 @@
+<div class="sl-wrapper">
+  <div class="sl-header">
+    <h1>🎓 Students</h1>
+    <button (click)="openAdd()" class="btn-add">+ Add Student</button>
+  </div>
+
+  <div class="search-bar">
+    <input [(ngModel)]="search" (input)="filterStudents()" placeholder="Search by name, code, class..." class="search-input"/>
+  </div>
+
+  <div class="table-card" *ngIf="!loading">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Student Code</th>
+          <th>Full Name</th>
+          <th>Username</th>
+          <th>Class</th>
+          <th>Guardian</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of filtered; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td><code>{{ s.studentCode }}</code></td>
+          <td>{{ s.fullName }}</td>
+          <td>{{ s.username }}</td>
+          <td>{{ s.className }} {{ s.section }}</td>
+          <td>{{ s.guardianName || '—' }}</td>
+          <td class="actions">
+            <button (click)="openEdit(s)" class="btn-icon" title="Edit">✏️</button>
+            <button (click)="delete(s)" class="btn-icon del" title="Delete">🗑️</button>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="7" style="text-align:center;padding:40px;color:#888">No students found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading students...</div>
+</div>
+
+<!-- Add / Edit Modal -->
+<div class="modal-overlay" *ngIf="showForm" (click)="showForm=false">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <h3>{{ editingId ? 'Edit Student' : 'Add New Student' }}</h3>
+    <div class="modal-grid">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input [(ngModel)]="form.fullName" class="input" placeholder="Full name"/>
+      </div>
+      <div class="form-group">
+        <label>Username *</label>
+        <input [(ngModel)]="form.username" class="input" placeholder="Login username" [disabled]="!!editingId"/>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input [(ngModel)]="form.email" type="email" class="input" placeholder="student@school.com"/>
+      </div>
+      <div class="form-group" *ngIf="!editingId">
+        <label>Password</label>
+        <input [(ngModel)]="form.password" type="password" class="input" placeholder="Initial password"/>
+      </div>
+      <div class="form-group">
+        <label>Class</label>
+        <input [(ngModel)]="form.className" class="input" placeholder="e.g. Grade 10"/>
+      </div>
+      <div class="form-group">
+        <label>Section</label>
+        <input [(ngModel)]="form.section" class="input" placeholder="e.g. A"/>
+      </div>
+      <div class="form-group full">
+        <label>Guardian Name</label>
+        <input [(ngModel)]="form.guardianName" class="input" placeholder="Parent/guardian name"/>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button (click)="showForm=false" class="btn-cancel">Cancel</button>
+      <button (click)="save()" class="btn-submit">{{ editingId ? 'Update' : 'Add Student' }}</button>
+    </div>
+  </div>
+</div>

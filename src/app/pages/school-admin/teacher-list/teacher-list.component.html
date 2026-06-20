@@ -1,0 +1,82 @@
+<div class="tl-wrapper">
+  <div class="tl-header">
+    <h1>👨‍🏫 Teachers</h1>
+    <button (click)="openAdd()" class="btn-add">+ Add Teacher</button>
+  </div>
+
+  <div class="search-bar">
+    <input [(ngModel)]="search" (input)="filterTeachers()" placeholder="Search by name, code, subject..." class="search-input"/>
+  </div>
+
+  <div class="table-card" *ngIf="!loading">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Teacher Code</th>
+          <th>Full Name</th>
+          <th>Username</th>
+          <th>Subject</th>
+          <th>Qualification</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of filtered; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td><code>{{ t.teacherCode }}</code></td>
+          <td>{{ t.fullName }}</td>
+          <td>{{ t.username }}</td>
+          <td>{{ t.subject || '—' }}</td>
+          <td>{{ t.qualification || '—' }}</td>
+          <td class="actions">
+            <button (click)="openEdit(t)" class="btn-icon" title="Edit">✏️</button>
+            <button (click)="delete(t)" class="btn-icon" title="Delete">🗑️</button>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="7" style="text-align:center;padding:40px;color:#888">No teachers found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading teachers...</div>
+</div>
+
+<!-- Add / Edit Modal -->
+<div class="modal-overlay" *ngIf="showForm" (click)="showForm=false">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <h3>{{ editingId ? 'Edit Teacher' : 'Add New Teacher' }}</h3>
+    <div class="modal-grid">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input [(ngModel)]="form.fullName" class="input" placeholder="Full name"/>
+      </div>
+      <div class="form-group">
+        <label>Username *</label>
+        <input [(ngModel)]="form.username" class="input" placeholder="Login username" [disabled]="!!editingId"/>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input [(ngModel)]="form.email" type="email" class="input" placeholder="teacher@school.com"/>
+      </div>
+      <div class="form-group" *ngIf="!editingId">
+        <label>Password</label>
+        <input [(ngModel)]="form.password" type="password" class="input" placeholder="Initial password"/>
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input [(ngModel)]="form.subject" class="input" placeholder="e.g. Mathematics"/>
+      </div>
+      <div class="form-group">
+        <label>Qualification</label>
+        <input [(ngModel)]="form.qualification" class="input" placeholder="e.g. M.Sc., B.Ed."/>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button (click)="showForm=false" class="btn-cancel">Cancel</button>
+      <button (click)="save()" class="btn-submit">{{ editingId ? 'Update' : 'Add Teacher' }}</button>
+    </div>
+  </div>
+</div>

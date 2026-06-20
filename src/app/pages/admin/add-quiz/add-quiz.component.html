@@ -1,93 +1,100 @@
-<mat-card>
-  <h1>Add New Quiz</h1>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <form (ngSubmit)="addQuiz()">
-          <!-- title field  -->
-          <mat-form-field class="w100" appearance="fill">
-            <mat-label>Enter Title</mat-label>
-            <input
-              [(ngModel)]="quizData.title"
-              type="text"
-              name="title"
-              placeholder="Enter here"
-              matInput
-              required
-            />
-          </mat-form-field>
+<div class="aq-page">
 
-          <!-- description field  -->
-
-          <mat-form-field class="w100" appearance="fill">
-            <mat-label>Enter Description </mat-label>
-            <textarea
-              [(ngModel)]="quizData.description"
-              type="text"
-              name="description"
-              placeholder="Enter here"
-              matInput
-              rows="5"
-            ></textarea>
-          </mat-form-field>
-
-          <div class="row">
-            <div class="col-md-6">
-              <!-- //max marks -->
-              <mat-form-field class="w100" appearance="fill">
-                <mat-label>Maximum Marks</mat-label>
-                <input
-                  [(ngModel)]="quizData.maxMarks"
-                  type="text"
-                  name="maxMarks"
-                  placeholder="Enter here"
-                  matInput
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <!-- number of question to be shown  -->
-              <mat-form-field class="w100" appearance="fill">
-                <mat-label>Number of Question</mat-label>
-                <input
-                  [(ngModel)]="quizData.numberOfQuestions"
-                  type="text"
-                  name="numberOfQuestions"
-                  placeholder="Enter here"
-                  matInput
-                />
-              </mat-form-field>
-            </div>
-          </div>
-
-          <!-- active field   -->
-
-          <mat-slide-toggle
-            name="active"
-            [(ngModel)]="quizData.active"
-            class="mt20"
-          >
-            Publish Status
-          </mat-slide-toggle>
-
-          <br />
-          <!-- //category select  -->
-          <mat-form-field appearance="fill" class="mt20 w100">
-            <mat-label>Categories</mat-label>
-            <mat-select name="category" [(ngModel)]="quizData.category.cid">
-              <mat-option *ngFor="let c of categories" [value]="c.cid">
-                {{ c.title }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <div class="container text-center">
-            <button mat-raised-button color="accent" type="submit">Add</button>
-          </div>
-        </form>
-      </div>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1 class="page-title">Add New Quiz</h1>
+      <p class="page-subtitle">Create a quiz and assign it to a category</p>
+    </div>
+    <div class="header-badge" *ngIf="role === 'SCHOOL_ADMIN'">
+      <span>🏫</span> School Quiz
     </div>
   </div>
-</mat-card>
 
-<!-- {{ quizData | json }} -->
+  <!-- Form Card -->
+  <div class="form-card">
+    <form (ngSubmit)="addQuiz()" autocomplete="off">
+
+      <!-- Title -->
+      <div class="form-group">
+        <label class="form-label">Quiz Title <span class="required">*</span></label>
+        <input
+          [(ngModel)]="quizData.title"
+          name="title"
+          type="text"
+          placeholder="Enter quiz title"
+          class="form-input"
+        />
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea
+          [(ngModel)]="quizData.description"
+          name="description"
+          placeholder="Enter quiz description (optional)"
+          class="form-input form-textarea"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <!-- Marks + Questions Row -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Maximum Marks</label>
+          <input
+            [(ngModel)]="quizData.maxMarks"
+            name="maxMarks"
+            type="number"
+            placeholder="e.g. 100"
+            class="form-input"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Questions</label>
+          <input
+            [(ngModel)]="quizData.numberOfQuestions"
+            name="numberOfQuestions"
+            type="number"
+            placeholder="e.g. 10"
+            class="form-input"
+          />
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div class="form-group">
+        <label class="form-label">Category <span class="required">*</span></label>
+        <select [(ngModel)]="quizData.category.cid" name="category" class="form-select">
+          <option value="">-- Select Category --</option>
+          <option *ngFor="let c of categories" [value]="c.cid">{{ c.title }}</option>
+        </select>
+        <p *ngIf="categories.length === 0" class="no-cat-hint">
+          No categories found.
+          <a routerLink="/admin/add-category">Add a category first →</a>
+        </p>
+      </div>
+
+      <!-- Publish Toggle -->
+      <div class="form-group toggle-group">
+        <label class="form-label">Publish Status</label>
+        <label class="toggle-switch">
+          <input type="checkbox" [(ngModel)]="quizData.active" name="active" />
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-label">{{ quizData.active ? 'Published' : 'Draft' }}</span>
+      </div>
+
+      <!-- Submit -->
+      <div class="form-actions">
+        <button type="submit" class="submit-btn" [disabled]="loading">
+          <span *ngIf="!loading">✅ Add Quiz</span>
+          <span *ngIf="loading" class="spinner-inline"></span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</div>

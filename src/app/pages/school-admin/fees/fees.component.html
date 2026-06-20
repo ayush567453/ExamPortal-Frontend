@@ -1,0 +1,346 @@
+<div class="fees-page">
+
+  <!-- ── Page Header + Tabs ── -->
+  <div class="page-header">
+    <div class="header-title">
+      <h1>💰 Fees Management</h1>
+      <p>Track collections, pending payments & fee structures</p>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn" [class.active]="tab === 'overview'"  (click)="tab = 'overview'">
+        📊 Overview
+      </button>
+      <button class="tab-btn" [class.active]="tab === 'structure'" (click)="tab = 'structure'">
+        🏗️ Fee Structure
+      </button>
+      <button class="tab-btn" [class.active]="tab === 'students'"  (click)="tab = 'students'">
+        👥 Student Fees
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       TAB 1: OVERVIEW
+  ════════════════════════════════════════════════ -->
+  <div *ngIf="tab === 'overview'">
+
+    <!-- Summary Cards -->
+    <div class="summary-grid">
+      <div class="sum-card green-card">
+        <div class="sum-icon">✅</div>
+        <div class="sum-body">
+          <div class="sum-val">{{ fmt(totalCollected) }}</div>
+          <div class="sum-label">Total Collected</div>
+        </div>
+        <div class="sum-badge green-b">{{ collectionRate }}% Rate</div>
+      </div>
+      <div class="sum-card red-card">
+        <div class="sum-icon">⏳</div>
+        <div class="sum-body">
+          <div class="sum-val">{{ fmt(totalPending) }}</div>
+          <div class="sum-label">Total Pending</div>
+        </div>
+        <div class="sum-badge red-b">{{ 100 - collectionRate }}% Due</div>
+      </div>
+      <div class="sum-card blue-card">
+        <div class="sum-icon">📋</div>
+        <div class="sum-body">
+          <div class="sum-val">{{ fmt(totalDue) }}</div>
+          <div class="sum-label">Total Annual Due</div>
+        </div>
+        <div class="sum-badge blue-b">{{ totalStudents }} Students</div>
+      </div>
+      <div class="sum-card orange-card">
+        <div class="sum-icon">📈</div>
+        <div class="sum-body">
+          <div class="sum-val">{{ collectionRate }}%</div>
+          <div class="sum-label">Collection Rate</div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-bar" [style.width]="collectionRate + '%'"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Month-wise Breakdown -->
+    <div class="section-block">
+      <h3 class="sec-title">📅 Month-wise Collection</h3>
+      <div class="month-table-wrap">
+        <table class="month-table">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Collected</th>
+              <th>Pending Amt</th>
+              <th>Pending Students</th>
+              <th>Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of months">
+              <td><strong>{{ m.label }}</strong></td>
+              <td class="collected-amt">{{ fmt(collectedForMonth(m.key)) }}</td>
+              <td class="pending-amt">{{ fmt(pendingAmountForMonth(m.key)) }}</td>
+              <td>
+                <span class="pending-badge" *ngIf="pendingStudentsForMonth(m.key) > 0">
+                  {{ pendingStudentsForMonth(m.key) }} students
+                </span>
+                <span class="ok-badge" *ngIf="pendingStudentsForMonth(m.key) === 0">
+                  ✓ All paid
+                </span>
+              </td>
+              <td class="prog-cell">
+                <div class="mini-progress">
+                  <div class="mini-fill" [style.width]="
+                    (totalStudents > 0
+                      ? ((totalStudents - pendingStudentsForMonth(m.key)) / totalStudents * 100)
+                      : 0) + '%'">
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Class-wise Summary -->
+    <div class="section-block">
+      <h3 class="sec-title">🚪 Class-wise Summary</h3>
+      <div class="class-summary-grid">
+        <div class="cs-card" *ngFor="let cs of classSummary">
+          <div class="cs-header">
+            <span class="cs-class">{{ cs.label }}</span>
+            <span class="cs-rate" [class.good]="cs.rate >= 70" [class.warn]="cs.rate >= 40 && cs.rate < 70" [class.bad]="cs.rate < 40">
+              {{ cs.rate }}%
+            </span>
+          </div>
+          <div class="cs-amounts">
+            <div class="cs-amt green">✅ {{ fmt(cs.collected) }}</div>
+            <div class="cs-amt red">⏳ {{ fmt(cs.pending) }}</div>
+          </div>
+          <div class="cs-bar">
+            <div class="cs-fill" [style.width]="cs.rate + '%'" [class.fill-good]="cs.rate >= 70" [class.fill-warn]="cs.rate >= 40 && cs.rate < 70" [class.fill-bad]="cs.rate < 40"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Students with Pending Fees -->
+    <div class="section-block">
+      <h3 class="sec-title">⚠️ Students with Maximum Pending Months</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Student</th>
+              <th>Class</th>
+              <th>Months Paid</th>
+              <th>Months Pending</th>
+              <th>Pending Amount</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of students | slice:0:20; let i = index"
+                [class.highlight-row]="pendingCountForStudent(s) >= 3">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <div class="student-cell">
+                  <div class="stu-av">{{ s.name[0] }}</div>
+                  <div>
+                    <div class="stu-name">{{ s.name }}</div>
+                    <div class="stu-code">{{ s.rollNo }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>{{ s.className }} <small *ngIf="s.section">{{ s.section }}</small></td>
+              <td><span class="paid-chip">{{ paidCountForStudent(s) }}/{{ months.length }}</span></td>
+              <td>
+                <span class="pend-chip" *ngIf="pendingCountForStudent(s) > 0">{{ pendingCountForStudent(s) }} months</span>
+                <span class="ok-chip" *ngIf="pendingCountForStudent(s) === 0">All Clear ✓</span>
+              </td>
+              <td class="pending-amt">{{ fmt(pendingCountForStudent(s) * monthlyFeeFor(s.classKey)) }}</td>
+              <td>
+                <button class="view-btn" (click)="tab = 'students'; filterClass = s.classKey; searchQuery = s.name">
+                  View →
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       TAB 2: FEE STRUCTURE
+  ════════════════════════════════════════════════ -->
+  <div *ngIf="tab === 'structure'">
+
+    <div class="section-block">
+      <div class="structure-header">
+        <h3 class="sec-title">🏗️ Monthly Fee Structure by Class</h3>
+        <button class="save-structure-btn" (click)="saveFeeStructure()">
+          {{ structureSaved ? '✓ Saved!' : '💾 Save Structure' }}
+        </button>
+      </div>
+      <p class="sec-sub">Set the monthly fee for each class. Annual fee = monthly × 12 months.</p>
+
+      <div class="structure-table-wrap">
+        <table class="structure-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Monthly Fee (₹)</th>
+              <th>Admission Fee (₹)</th>
+              <th>Exam Fee (₹)</th>
+              <th>Other (₹)</th>
+              <th>Annual Total (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let f of feeStructure">
+              <td><strong>{{ f.label }}</strong></td>
+              <td><input type="number" [(ngModel)]="f.monthly"   class="fee-input" min="0" /></td>
+              <td><input type="number" [(ngModel)]="f.admission" class="fee-input" min="0" /></td>
+              <td><input type="number" [(ngModel)]="f.exam"      class="fee-input" min="0" /></td>
+              <td><input type="number" [(ngModel)]="f.other"     class="fee-input" min="0" /></td>
+              <td class="total-cell">{{ fmt(f.monthly * 12 + f.admission + f.exam + f.other) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="save-row">
+        <button class="save-structure-btn" (click)="saveFeeStructure()">
+          {{ structureSaved ? '✓ Structure Saved!' : '💾 Save Fee Structure' }}
+        </button>
+        <span class="save-hint">Changes save locally and apply to student fee calculations.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       TAB 3: STUDENT FEES
+  ════════════════════════════════════════════════ -->
+  <div *ngIf="tab === 'students'">
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <input class="filter-input search-input" [(ngModel)]="searchQuery"
+             placeholder="🔍 Search student name / roll no" />
+
+      <select class="filter-input" [(ngModel)]="filterClass">
+        <option value="">All Classes</option>
+        <option *ngFor="let c of classOptions" [value]="c.key">{{ c.label }}</option>
+      </select>
+
+      <select class="filter-input" [(ngModel)]="filterMonth">
+        <option value="">All Months</option>
+        <option *ngFor="let m of months" [value]="m.key">{{ m.label }}</option>
+      </select>
+
+      <select class="filter-input" [(ngModel)]="filterStatus">
+        <option value="">All Status</option>
+        <option value="paid">Paid</option>
+        <option value="pending">Pending</option>
+      </select>
+
+      <button class="clear-filter-btn" (click)="filterClass=''; filterMonth=''; filterStatus=''; searchQuery=''">
+        ✕ Clear
+      </button>
+    </div>
+
+    <!-- Student Fee Table (scrollable horizontal) -->
+    <div class="section-block" *ngIf="!loadingStudents">
+      <div class="student-fee-wrap">
+        <table class="student-fee-table">
+          <thead>
+            <tr>
+              <th class="sticky-col">#</th>
+              <th class="sticky-col name-col">Student</th>
+              <th class="sticky-col">Class</th>
+              <th *ngFor="let m of months" class="month-th">{{ m.key }}</th>
+              <th>Paid</th>
+              <th>Pending</th>
+              <th>Due Amt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of filteredStudents; let i = index">
+              <td class="sticky-col">{{ i + 1 }}</td>
+              <td class="sticky-col name-col">
+                <div class="student-cell">
+                  <div class="stu-av sm">{{ s.name[0] }}</div>
+                  <div>
+                    <div class="stu-name">{{ s.name }}</div>
+                    <div class="stu-code">{{ s.rollNo }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="sticky-col">{{ s.className }}<br/><small *ngIf="s.section">Sec {{ s.section }}</small></td>
+              <td *ngFor="let m of months" class="status-cell">
+                <button class="status-pill"
+                        [class.paid-pill]="getStatus(s, m.key) === 'paid'"
+                        [class.pend-pill]="getStatus(s, m.key) === 'pending'"
+                        (click)="togglePay(s, m)"
+                        [title]="'Click to update ' + m.label + ' payment'">
+                  {{ getStatus(s, m.key) === 'paid' ? '✓' : '₹' }}
+                </button>
+              </td>
+              <td class="paid-count">{{ paidCountForStudent(s) }}/{{ months.length }}</td>
+              <td>
+                <span class="pend-pill-sm" *ngIf="pendingCountForStudent(s) > 0">
+                  {{ pendingCountForStudent(s) }}
+                </span>
+                <span class="ok-pill-sm" *ngIf="pendingCountForStudent(s) === 0">✓</span>
+              </td>
+              <td class="pending-amt">{{ fmt(pendingCountForStudent(s) * monthlyFeeFor(s.classKey)) }}</td>
+            </tr>
+            <tr *ngIf="filteredStudents.length === 0">
+              <td [attr.colspan]="months.length + 7" class="no-rows">No students found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="legend-row">
+        <span class="legend-item"><span class="legend-dot green-dot">✓</span> Paid</span>
+        <span class="legend-item"><span class="legend-dot red-dot">₹</span> Pending — click to update</span>
+      </div>
+    </div>
+
+    <div class="loading-box" *ngIf="loadingStudents">
+      <div class="spinner"></div>
+      <p>Loading students...</p>
+    </div>
+  </div>
+
+  <!-- ── Payment Modal ── -->
+  <div class="modal-overlay" *ngIf="payModal" (click)="payModal = null"></div>
+  <div class="pay-modal" *ngIf="payModal">
+    <div class="pay-modal-header">
+      <h3>Update Payment</h3>
+      <button class="close-modal" (click)="payModal = null">✕</button>
+    </div>
+    <div class="pay-modal-body">
+      <div class="pay-info">
+        <div class="pay-student">{{ payModal.student.name }}</div>
+        <div class="pay-class">{{ payModal.student.className }} {{ payModal.student.section }}</div>
+        <div class="pay-month">Month: <strong>{{ payModal.month.label }}</strong></div>
+        <div class="pay-due">Monthly Fee: <strong>{{ fmt(monthlyFeeFor(payModal.student.classKey)) }}</strong></div>
+      </div>
+      <div class="pay-note">
+        <label>Note (Optional)</label>
+        <input [(ngModel)]="payNote" class="note-input" placeholder="e.g. Paid by cash, cheque no..." />
+      </div>
+    </div>
+    <div class="pay-modal-actions">
+      <button class="mark-paid-btn"    (click)="confirmPay('paid')">✓ Mark as Paid</button>
+      <button class="mark-pending-btn" (click)="confirmPay('pending')">⏳ Mark as Pending</button>
+    </div>
+  </div>
+
+</div>

@@ -24,6 +24,17 @@ import { QuizResultComponent } from './pages/admin/quiz-result/quiz-result.compo
 import { ForgotpasswordComponent } from './pages/user/forgotpassword/forgotpassword.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { LeaderBoardComponent } from './pages/user/leader-board/leader-board.component';
+import { SuperDashboardComponent } from './pages/super-admin/super-dashboard/super-dashboard.component';
+import { TenantListComponent } from './pages/super-admin/tenant-list/tenant-list.component';
+import { TenantFormComponent } from './pages/super-admin/tenant-form/tenant-form.component';
+import { SchoolDashboardComponent } from './pages/school-admin/school-dashboard/school-dashboard.component';
+import { StudentListComponent } from './pages/school-admin/student-list/student-list.component';
+import { TeacherListComponent } from './pages/school-admin/teacher-list/teacher-list.component';
+import { ClassesComponent } from './pages/school-admin/classes/classes.component';
+import { TimetableComponent } from './pages/school-admin/timetable/timetable.component';
+import { FeesComponent } from './pages/school-admin/fees/fees.component';
+import { SuperAdminGuard } from './guards/super-admin.guard';
+import { SchoolAdminGuard } from './guards/school-admin.guard';
 
 const routes: Routes = [
   {
@@ -126,6 +137,30 @@ component:ResetPasswordComponent,
     path: 'start/:qid',
     component: StartComponent,
     canActivate: [NormalGuard],
+  },
+  {
+    path: 'super-admin',
+    canActivate: [SuperAdminGuard],
+    children: [
+      { path: 'dashboard', component: SuperDashboardComponent },
+      { path: 'tenants', component: TenantListComponent },
+      { path: 'tenants/new', component: TenantFormComponent },
+      { path: 'tenants/:id/edit', component: TenantFormComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
+  },
+  {
+    path: 'school-admin',
+    canActivate: [SchoolAdminGuard],
+    children: [
+      { path: 'dashboard', component: SchoolDashboardComponent },
+      { path: 'students', component: StudentListComponent },
+      { path: 'teachers', component: TeacherListComponent },
+      { path: 'classes', component: ClassesComponent },
+      { path: 'timetable', component: TimetableComponent },
+      { path: 'fees', component: FeesComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
   },
 ];
 

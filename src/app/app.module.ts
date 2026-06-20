@@ -46,6 +46,17 @@ import { ForgotpasswordComponent } from './pages/user/forgotpassword/forgotpassw
 import { ResetpasswordComponent } from './pages/user/resetpassword/resetpassword.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { LeaderBoardComponent } from './pages/user/leader-board/leader-board.component';
+import { WebcamModule } from 'ngx-webcam';
+import { ChatbotcomponentComponent } from './components/chatbotcomponent/chatbotcomponent.component';
+import { SuperDashboardComponent } from './pages/super-admin/super-dashboard/super-dashboard.component';
+import { TenantListComponent } from './pages/super-admin/tenant-list/tenant-list.component';
+import { TenantFormComponent } from './pages/super-admin/tenant-form/tenant-form.component';
+import { SchoolDashboardComponent } from './pages/school-admin/school-dashboard/school-dashboard.component';
+import { StudentListComponent } from './pages/school-admin/student-list/student-list.component';
+import { TeacherListComponent } from './pages/school-admin/teacher-list/teacher-list.component';
+import { ClassesComponent } from './pages/school-admin/classes/classes.component';
+import { TimetableComponent } from './pages/school-admin/timetable/timetable.component';
+import { FeesComponent } from './pages/school-admin/fees/fees.component';
 
 
 @NgModule({
@@ -56,6 +67,7 @@ import { LeaderBoardComponent } from './pages/user/leader-board/leader-board.com
     SignupComponent,
     LoginComponent,
     HomeComponent,
+    
     DashboardComponent,
     UserDashboardComponent,
     ProfileComponent,
@@ -77,7 +89,16 @@ import { LeaderBoardComponent } from './pages/user/leader-board/leader-board.com
     ResetpasswordComponent,
     ResetPasswordComponent,
     LeaderBoardComponent,
-   
+    ChatbotcomponentComponent,
+    SuperDashboardComponent,
+    TenantListComponent,
+    TenantFormComponent,
+    SchoolDashboardComponent,
+    StudentListComponent,
+    TeacherListComponent,
+    ClassesComponent,
+    TimetableComponent,
+    FeesComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,7 +107,6 @@ import { LeaderBoardComponent } from './pages/user/leader-board/leader-board.com
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
-   
     FormsModule,
     HttpClientModule,
     MatSnackBarModule,

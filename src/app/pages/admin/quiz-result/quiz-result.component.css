@@ -1,80 +1,47 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+.qr-page { padding: 28px 32px; font-family: 'Segoe UI', sans-serif; }
 
-.quiz-results-container {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
+.page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+.page-title { font-size: 1.5rem; font-weight: 800; color: #1e293b; margin: 0 0 4px; }
+.page-subtitle { font-size: .85rem; color: #64748b; margin: 0; }
+.result-count { background: #dbeafe; color: #1e40af; padding: 6px 14px; border-radius: 20px; font-size: .82rem; font-weight: 700; align-self: flex-start; }
+
+.search-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: #fff; border: 1.5px solid #e2e8f0; border-radius: 10px;
+  padding: 0 14px; margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
 }
+.search-icon { font-size: 1rem; color: #94a3b8; }
+.search-input { flex: 1; border: none; outline: none; padding: 12px 0; font-size: .92rem; color: #1e293b; background: transparent; font-family: inherit; }
 
-.quiz-results-card {
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  padding: 20px;
-  animation: fadeInUp 1s ease;
-}
+.loading-box, .empty-box { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 60px; color: #94a3b8; }
+.spinner { width: 36px; height: 36px; border: 3px solid #e2e8f0; border-top-color: #1e3a5f; border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.empty-icon { font-size: 3rem; }
+.empty-box p { font-size: 1rem; font-weight: 600; margin: 0; }
 
-.quiz-results-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
+.table-card { background: #fff; border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,.07); overflow: hidden; border: 1px solid #e2e8f0; }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th { background: #f8fafc; padding: 11px 14px; text-align: left; font-size: .78rem; font-weight: 700; color: #64748b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; letter-spacing: .04em; }
+.data-table td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; font-size: .87rem; color: #334155; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover { background: #f8fafc; }
+.idx { color: #94a3b8; font-size: .8rem; }
+.username { font-weight: 600; color: #1e293b; }
+.quiz-name { color: #475569; }
+.marks-badge { background: #ede9fe; color: #6d28d9; padding: 3px 10px; border-radius: 20px; font-size: .82rem; font-weight: 700; }
+.correct { color: #15803d; font-weight: 600; }
+.attempted { color: #0284c7; font-weight: 600; }
+.timestamp { font-size: .8rem; color: #94a3b8; }
 
-.quiz-results-table th,
-.quiz-results-table td {
-  text-align: left;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-}
+.pagination { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 16px; border-top: 1px solid #f1f5f9; }
+.pg-btn { background: #1e3a5f; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-size: .85rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: opacity .2s; }
+.pg-btn:disabled { opacity: .4; cursor: not-allowed; }
+.pg-btn:not(:disabled):hover { background: #1565c0; }
+.pg-info { font-size: .85rem; color: #64748b; font-weight: 600; }
 
-.quiz-results-table th {
-  background-color: #f4f6f8;
-  font-weight: 600;
-  color: #333;
-}
-
-.quiz-results-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.quiz-results-table tr:hover {
-  background-color: #e1f5fe;
-}
-
-.quiz-result-item td {
-  color: #555;
-}
-
-.pagination-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.pagination-btn {
-  font-size: 1rem;
-  padding: 8px 20px;
-  border-radius: 25px;
-  transition: all 0.3s ease;
-  margin: 0 10px;
-}
-
-.pagination-btn:hover {
-  background-color: #2196f3;
-  color: #fff;
-  transform: scale(1.05);
-}
-
-.pagination-info {
-  font-size: 1rem;
-  margin: 0 15px;
-}
-
-.text-center {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 20px;
+@media (max-width: 700px) {
+  .qr-page { padding: 16px; }
+  .data-table th:nth-child(5), .data-table td:nth-child(5),
+  .data-table th:nth-child(7), .data-table td:nth-child(7) { display: none; }
 }

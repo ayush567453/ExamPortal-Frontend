@@ -1,0 +1,95 @@
+<div class="classes-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">🚪 Class Management</h1>
+      <p class="page-sub">Create and manage school classes & sections</p>
+    </div>
+    <button class="add-btn" (click)="openForm()">+ Add New Class</button>
+  </div>
+
+  <!-- Add Class Form -->
+  <div class="form-overlay" *ngIf="showForm" (click)="showForm = false"></div>
+  <div class="slide-form" [class.open]="showForm">
+    <div class="slide-form-inner">
+      <h3>Create New Class</h3>
+
+      <div class="field-group">
+        <label>Class Name</label>
+        <select [(ngModel)]="newClass.name" class="field-input">
+          <option value="">-- Select Class --</option>
+          <option *ngFor="let c of classNames" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label>Section</label>
+        <select [(ngModel)]="newClass.section" class="field-input">
+          <option value="">-- Select Section --</option>
+          <option *ngFor="let s of sections" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label>Description (Optional)</label>
+        <input [(ngModel)]="newClass.description" class="field-input" placeholder="e.g. Science group" />
+      </div>
+
+      <div class="form-actions">
+        <button class="cancel-btn" (click)="showForm = false">Cancel</button>
+        <button class="save-btn" (click)="saveClass()" [disabled]="saving">
+          {{ saving ? 'Saving...' : '✓ Save Class' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-box" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading classes...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && classes.length === 0">
+    <div class="empty-icon">🏫</div>
+    <h3>No Classes Yet</h3>
+    <p>Create your first class to get started</p>
+    <button class="add-btn" (click)="openForm()">+ Create First Class</button>
+  </div>
+
+  <!-- Classes Grid -->
+  <div class="classes-grid" *ngIf="!loading && classes.length > 0">
+    <div class="class-card" *ngFor="let cls of classes; let i = index"
+         [style.animation-delay]="(i * 0.07) + 's'">
+      <div class="card-top" [style.background]="colorFor(i)">
+        <div class="card-icon">🚪</div>
+        <div class="card-badge">
+          {{ cls.studentCount || 0 }} Students
+        </div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">{{ cls.name }}</h3>
+        <p class="card-section">Section {{ cls.section }}</p>
+        <p class="card-desc" *ngIf="cls.description">{{ cls.description }}</p>
+        <div class="card-actions">
+          <button class="del-btn" (click)="confirmDelete(cls.id)">🗑 Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Dialog -->
+  <div class="form-overlay" *ngIf="deleteConfirmId != null" (click)="deleteConfirmId = null"></div>
+  <div class="confirm-dialog" *ngIf="deleteConfirmId != null">
+    <div class="confirm-icon">⚠️</div>
+    <h3>Delete Class?</h3>
+    <p>This action cannot be undone. All students in this class will be unlinked.</p>
+    <div class="confirm-actions">
+      <button class="cancel-btn" (click)="deleteConfirmId = null">Cancel</button>
+      <button class="danger-btn" (click)="deleteClass()">Yes, Delete</button>
+    </div>
+  </div>
+
+</div>

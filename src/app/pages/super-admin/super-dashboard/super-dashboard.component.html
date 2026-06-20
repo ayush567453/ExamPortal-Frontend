@@ -1,0 +1,81 @@
+<div class="sa-wrapper">
+  <div class="sa-header">
+    <h1>🏫 Super Admin Dashboard</h1>
+    <a routerLink="/super-admin/tenants/new" class="btn-add">+ Add New School</a>
+  </div>
+
+  <div class="stats-grid" *ngIf="!loading">
+    <div class="stat-card blue">
+      <div class="stat-icon">🏫</div>
+      <div class="stat-info">
+        <h2>{{ stats.totalSchools || 0 }}</h2>
+        <p>Total Schools</p>
+      </div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-icon">✅</div>
+      <div class="stat-info">
+        <h2>{{ stats.activeSchools || 0 }}</h2>
+        <p>Active Schools</p>
+      </div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-icon">🎓</div>
+      <div class="stat-info">
+        <h2>{{ stats.totalStudents || 0 }}</h2>
+        <p>Total Students</p>
+      </div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-icon">👨‍🏫</div>
+      <div class="stat-info">
+        <h2>{{ stats.totalTeachers || 0 }}</h2>
+        <p>Total Teachers</p>
+      </div>
+    </div>
+    <div class="stat-card teal">
+      <div class="stat-icon">👥</div>
+      <div class="stat-info">
+        <h2>{{ stats.totalUsers || 0 }}</h2>
+        <p>Total Users</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" *ngIf="!loading">
+    <h3>Recent Schools</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>School Name</th>
+          <th>Code</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of stats.recentTenants">
+          <td>{{ t.schoolName }}</td>
+          <td><code>{{ t.tenantCode }}</code></td>
+          <td>{{ t.email }}</td>
+          <td>
+            <span class="badge" [class.active]="t.status==='ACTIVE'"
+                  [class.inactive]="t.status==='INACTIVE'">
+              {{ t.status }}
+            </span>
+          </td>
+          <td>
+            <a [routerLink]="['/super-admin/tenants', t.tenantId]" class="link-btn">View</a>
+          </td>
+        </tr>
+        <tr *ngIf="!stats.recentTenants?.length">
+          <td colspan="5" style="text-align:center;color:#888">No schools yet. Create your first school!</td>
+        </tr>
+      </tbody>
+    </table>
+    <a routerLink="/super-admin/tenants" class="view-all">View All Schools →</a>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading dashboard...</div>
+</div>

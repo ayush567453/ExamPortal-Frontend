@@ -1,2 +1,3 @@
-let baseUrl = 'http://localhost:10101';
+import { environment } from 'src/environments/environment';
+const baseUrl = environment.apiUrl;
 export default baseUrl;

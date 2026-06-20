@@ -1,0 +1,295 @@
+<div class="sa-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar" [class.collapsed]="!sidebarOpen">
+    <div class="sidebar-header">
+      <img *ngIf="school.logoFull" [src]="school.logoFull" class="sidebar-logo" alt="logo"/>
+      <div *ngIf="!school.logoFull" class="sidebar-logo-placeholder">🏫</div>
+      <div class="sidebar-school-name" *ngIf="sidebarOpen">
+        <strong>{{ school.schoolName || 'School Portal' }}</strong>
+        <small>Admin Panel</small>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a *ngFor="let item of navItems" [routerLink]="item.route"
+         routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label" *ngIf="sidebarOpen">{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer" *ngIf="sidebarOpen">
+      <button (click)="logout()" class="logout-btn">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ── -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="toggle-btn" (click)="sidebarOpen = !sidebarOpen">☰</button>
+        <div class="breadcrumb">
+          <span>School Admin</span> / <span class="current">Dashboard</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="header-date">{{ currentDate | date:'EEEE, d MMMM y' }}</div>
+        <div class="admin-badge">
+          <div class="admin-avatar">{{ adminName[0]?.toUpperCase() }}</div>
+          <div>
+            <div class="admin-name">{{ adminName }}</div>
+            <div class="admin-role">School Admin</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+      <div class="welcome-bg-circle c1"></div>
+      <div class="welcome-bg-circle c2"></div>
+      <div class="welcome-text">
+        <div class="welcome-tag">👋 Welcome back!</div>
+        <h2>{{ adminName }}</h2>
+        <p>{{ school.schoolName || 'Your School' }} &nbsp;•&nbsp; Manage everything from one place</p>
+        <div class="welcome-pills">
+          <span class="wpill">📅 {{ currentDate | date:'d MMM y' }}</span>
+          <span class="wpill green-pill">🟢 System Active</span>
+        </div>
+      </div>
+      <div class="welcome-illustration">🏫</div>
+    </div>
+
+    <!-- ── Stat Cards ── -->
+    <div class="stats-grid" *ngIf="!loading">
+      <div class="stat-card reveal" style="--d:0s">
+        <div class="stat-icon-wrap blue"><span>🎓</span></div>
+        <div class="stat-body">
+          <h3 class="count-num">{{ c_students }}</h3>
+          <p>Total Students</p>
+          <div class="stat-bar"><div class="stat-fill blue-fill" [style.width]="(c_students > 0 ? 100 : 0) + '%'"></div></div>
+        </div>
+        <a routerLink="/school-admin/students" class="stat-link">View All →</a>
+        <div class="stat-glow blue-glow"></div>
+      </div>
+
+      <div class="stat-card reveal" style="--d:.08s">
+        <div class="stat-icon-wrap green"><span>👨‍🏫</span></div>
+        <div class="stat-body">
+          <h3 class="count-num">{{ c_teachers }}</h3>
+          <p>Total Teachers</p>
+          <div class="stat-bar"><div class="stat-fill green-fill" [style.width]="(c_teachers > 0 ? 70 : 0) + '%'"></div></div>
+        </div>
+        <a routerLink="/school-admin/teachers" class="stat-link">View All →</a>
+        <div class="stat-glow green-glow"></div>
+      </div>
+
+      <div class="stat-card reveal" style="--d:.16s">
+        <div class="stat-icon-wrap purple"><span>🚪</span></div>
+        <div class="stat-body">
+          <h3 class="count-num">{{ c_classes }}</h3>
+          <p>Classes</p>
+          <div class="stat-bar"><div class="stat-fill purple-fill" [style.width]="(c_classes > 0 ? 60 : 0) + '%'"></div></div>
+        </div>
+        <a routerLink="/school-admin/classes" class="stat-link">Manage →</a>
+        <div class="stat-glow purple-glow"></div>
+      </div>
+
+      <div class="stat-card reveal" style="--d:.24s">
+        <div class="stat-icon-wrap orange"><span>📝</span></div>
+        <div class="stat-body">
+          <h3 class="count-num">{{ c_exams }}</h3>
+          <p>Active Exams</p>
+          <div class="stat-bar"><div class="stat-fill orange-fill" [style.width]="(c_exams > 0 ? 80 : 0) + '%'"></div></div>
+        </div>
+        <a routerLink="/admin/quizzes" class="stat-link">View All →</a>
+        <div class="stat-glow orange-glow"></div>
+      </div>
+    </div>
+
+    <!-- ── Quick Stats Row ── -->
+    <div class="quick-stats-row reveal" style="--d:.1s" *ngIf="!loading">
+      <div class="qs-card" *ngFor="let qs of quickStats"
+           [style.background]="qs.bg" [style.border-left]="'4px solid ' + qs.color">
+        <div class="qs-icon" [style.color]="qs.color">{{ qs.icon }}</div>
+        <div class="qs-body">
+          <div class="qs-val" [style.color]="qs.color">{{ qs.value }}</div>
+          <div class="qs-label">{{ qs.label }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Fees Summary Widget ── -->
+    <div class="fees-widget reveal" style="--d:.12s" *ngIf="!loading">
+      <div class="fees-widget-header">
+        <h3 class="section-title" style="margin:0">💰 Fees Collection Overview</h3>
+        <a routerLink="/school-admin/fees" class="fees-manage-link">Manage Fees →</a>
+      </div>
+      <div class="fees-mini-grid">
+        <div class="fm-card green-fm">
+          <div class="fm-icon">✅</div>
+          <div class="fm-body">
+            <div class="fm-val">
+              {{ feesPaidCount }}
+              <small>payments</small>
+            </div>
+            <div class="fm-label">
+              Fees Collected
+              <span *ngIf="feesCollected > 0"> · ₹{{ feesCollected | number }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="fm-card red-fm">
+          <div class="fm-icon">⏳</div>
+          <div class="fm-body">
+            <div class="fm-val">
+              {{ feesPendingCount }}
+              <small>payments</small>
+            </div>
+            <div class="fm-label">
+              Fees Pending
+              <span *ngIf="feesPending > 0"> · ₹{{ feesPending | number }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="fm-card blue-fm">
+          <div class="fm-icon">📈</div>
+          <div class="fm-body">
+            <div class="fm-val">{{ feesRate }}%</div>
+            <div class="fm-label">Collection Rate</div>
+          </div>
+          <div class="fm-progress">
+            <div class="fm-fill" [style.width]="feesRate + '%'"></div>
+          </div>
+        </div>
+        <a routerLink="/school-admin/fees" class="fm-card action-fm">
+          <div class="fm-icon">🗂️</div>
+          <div class="fm-body">
+            <div class="fm-val">View Details</div>
+            <div class="fm-label">Student-wise • Month-wise</div>
+          </div>
+          <div class="fm-arrow">→</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ── Two-column Section ── -->
+    <div class="two-col reveal" style="--d:.15s">
+
+      <!-- Quick Actions -->
+      <div class="col-block">
+        <h3 class="section-title">⚡ Quick Actions</h3>
+        <div class="action-grid">
+          <a routerLink="/school-admin/students" class="action-card blue-card">
+            <div class="action-icon">🎓</div>
+            <div class="action-info">
+              <strong>Students</strong>
+              <small>Add, edit, view</small>
+            </div>
+            <div class="action-arrow">→</div>
+          </a>
+          <a routerLink="/school-admin/teachers" class="action-card green-card">
+            <div class="action-icon">👨‍🏫</div>
+            <div class="action-info">
+              <strong>Teachers</strong>
+              <small>Staff management</small>
+            </div>
+            <div class="action-arrow">→</div>
+          </a>
+          <a routerLink="/school-admin/classes" class="action-card purple-card">
+            <div class="action-icon">🚪</div>
+            <div class="action-info">
+              <strong>Classes</strong>
+              <small>Manage sections</small>
+            </div>
+            <div class="action-arrow">→</div>
+          </a>
+          <a routerLink="/school-admin/timetable" class="action-card teal-card">
+            <div class="action-icon">📅</div>
+            <div class="action-info">
+              <strong>Timetable</strong>
+              <small>Weekly schedule</small>
+            </div>
+            <div class="action-arrow">→</div>
+          </a>
+          <a routerLink="/admin/add-quiz" class="action-card orange-card">
+            <div class="action-icon">📝</div>
+            <div class="action-info">
+              <strong>Create Exam</strong>
+              <small>Add new quiz</small>
+            </div>
+            <div class="action-arrow">→</div>
+          </a>
+          <a routerLink="/admin/quiz-result" class="action-card red-card">
+            <div class="action-icon">📊</div>
+            <div class="action-info">
+              <strong>Results</strong>
+              <small>View scores</small>
+            </div>
+            <div class="action-arrow">→</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="col-block">
+        <h3 class="section-title">🕐 Recent Activity</h3>
+        <div class="activity-feed">
+          <div class="activity-item" *ngFor="let a of recentActivities; let i = index"
+               [style.animation-delay]="(i * 0.1) + 's'">
+            <div class="activity-dot" [style.background]="a.color">{{ a.icon }}</div>
+            <div class="activity-body">
+              <div class="activity-text">{{ a.text }}</div>
+              <div class="activity-time">{{ a.time }}</div>
+            </div>
+          </div>
+          <div class="activity-pulse">
+            <span class="pulse-dot"></span>
+            <span class="pulse-label">Live updates enabled</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Recent Students Table ── -->
+    <div class="recent-section reveal" style="--d:.2s" *ngIf="stats.recentStudents?.length">
+      <h3 class="section-title">👥 Recently Added Students</h3>
+      <div class="table-card">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Code</th>
+              <th>Class</th>
+              <th>Username</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of stats.recentStudents; let i = index"
+                [style.animation-delay]="(i * 0.05) + 's'" class="table-row-anim">
+              <td>{{ i + 1 }}</td>
+              <td><div class="student-name-cell"><div class="student-avatar">{{ s.fullName[0] }}</div><strong>{{ s.fullName }}</strong></div></td>
+              <td><code>{{ s.studentCode }}</code></td>
+              <td>{{ s.className }} {{ s.section }}</td>
+              <td>{{ s.username }}</td>
+              <td><span class="status-badge active">Active</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <a routerLink="/school-admin/students" class="view-all-link">View All Students →</a>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-box" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading dashboard data...</p>
+    </div>
+
+  </div>
+</div>

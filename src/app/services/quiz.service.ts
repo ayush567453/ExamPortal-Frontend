@@ -43,7 +43,17 @@ export class QuizService {
   }
 
   //get active quizzes of category
-  public getActiveQuizzesOfCategory(cid) {
+  public getActiveQuizzesOfCategory(cid: any) {
     return this._http.get(`${baseUrl}/quiz/category/active/${cid}`);
+  }
+
+  // Get active quizzes for a specific tenant (school)
+  public getActiveQuizzesByTenant(tenantId: string) {
+    return this._http.get(`${baseUrl}/quiz/active/tenant/${tenantId}`);
+  }
+
+  // Get all quizzes (including inactive) for a tenant — school admin management
+  public getQuizzesByTenant(tenantId: string) {
+    return this._http.get(`${baseUrl}/quiz/tenant/${tenantId}`);
   }
 }

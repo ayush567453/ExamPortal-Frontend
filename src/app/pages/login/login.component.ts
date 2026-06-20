@@ -60,15 +60,18 @@ export class LoginComponent implements OnInit {
           console.log(user);
           //redirect ...ADMIN: admin-dashboard
           //redirect ...NORMAL:normal-dashboard
-          if (this.login.getUserRole() == 'ADMIN') {
-            //admin dashboard
-            // window.location.href = '/admin';
+          const role = this.login.getUserRole();
+          if (role == 'ADMIN') {
             this.router.navigate(['admin']);
             this.login.loginStatusSubject.next(true);
-          } else if (this.login.getUserRole() == 'NORMAL') {
-            //normal user dashbaord
-            // window.location.href = '/user-dashboard';
+          } else if (role == 'NORMAL' || role == 'STUDENT' || role == 'TEACHER') {
             this.router.navigate(['user-dashboard/0']);
+            this.login.loginStatusSubject.next(true);
+          } else if (role == 'SUPER_ADMIN') {
+            this.router.navigate(['super-admin/dashboard']);
+            this.login.loginStatusSubject.next(true);
+          } else if (role == 'SCHOOL_ADMIN') {
+            this.router.navigate(['school-admin/dashboard']);
             this.login.loginStatusSubject.next(true);
           } else {
             this.login.logout();
