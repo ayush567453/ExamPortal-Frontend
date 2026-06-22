@@ -1,0 +1,124 @@
+<div class="lib-layout">
+  <aside class="lib-sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">📚</div>
+      <div><div class="brand-name">Library</div><div class="brand-sub">Management System</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" routerLink="/library/dashboard"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" routerLink="/library/books"><span class="nav-icon">📖</span> Books</a>
+      <a class="nav-item" routerLink="/library/members"><span class="nav-icon">👥</span> Members</a>
+      <a class="nav-item active" routerLink="/library/issues"><span class="nav-icon">🔄</span> Issue / Return</a>
+    </nav>
+  </aside>
+
+  <main class="lib-main">
+    <header class="lib-header">
+      <div><h1 class="page-title">Issue & Return</h1><p class="page-sub">Manage book circulation</p></div>
+      <button class="btn-primary" (click)="showIssueForm=true">+ Issue Book</button>
+    </header>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab" [class.active]="activeTab==='active'" (click)="setTab('active')">Active Issues</button>
+      <button class="tab" [class.active]="activeTab==='all'" (click)="setTab('all')">All Records</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="lib-table" *ngIf="issues.length > 0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Book</th>
+            <th>Member</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Fine</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let issue of issues; let i = index">
+            <td>{{ i+1 }}</td>
+            <td>
+              <div class="book-cell">
+                <div class="book-dot">📖</div>
+                <div>
+                  <div class="book-name">{{ issue.book?.title }}</div>
+                  <div class="book-auth">{{ issue.book?.author }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="member-name">{{ issue.member?.name }}</div>
+              <div class="member-class">{{ issue.member?.studentClass }}</div>
+            </td>
+            <td>{{ issue.issueDate }}</td>
+            <td [class.overdue-date]="isOverdue(issue.dueDate) && issue.status !== 'RETURNED'">
+              {{ issue.dueDate }}
+              <span class="overdue-tag" *ngIf="isOverdue(issue.dueDate) && issue.status !== 'RETURNED'">Overdue</span>
+            </td>
+            <td>
+              <span class="badge"
+                [ngClass]="issue.status === 'ISSUED' ? 'badge-blue' : issue.status === 'RETURNED' ? 'badge-green' : 'badge-red'">
+                {{ issue.status }}
+              </span>
+            </td>
+            <td>{{ issue.fine > 0 ? '₹' + issue.fine : '—' }}</td>
+            <td>
+              <button class="return-btn" *ngIf="issue.status !== 'RETURNED'" (click)="returnBook(issue.id)">
+                📥 Return
+              </button>
+              <span class="returned-text" *ngIf="issue.status === 'RETURNED'">✓ Done</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="empty-state" *ngIf="issues.length === 0">
+        <div class="empty-icon">📭</div>
+        <p *ngIf="activeTab==='active'">No active issues. <button class="link-btn" (click)="showIssueForm=true">Issue a book</button></p>
+        <p *ngIf="activeTab==='all'">No issue records found.</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Issue Book Modal -->
+<div class="modal-overlay" *ngIf="showIssueForm" (click)="showIssueForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>📤 Issue Book</h2>
+      <button class="modal-close" (click)="showIssueForm=false">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Select Book</label>
+        <select [(ngModel)]="selectedBookId" class="form-input">
+          <option [ngValue]="null">Choose a book...</option>
+          <option *ngFor="let b of books" [ngValue]="b.id">
+            {{ b.title }} — {{ b.author }} ({{ b.availableCopies }} available)
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Select Member</label>
+        <select [(ngModel)]="selectedMemberId" class="form-input">
+          <option [ngValue]="null">Choose a member...</option>
+          <option *ngFor="let m of members" [ngValue]="m.id">
+            {{ m.name }} — {{ m.studentClass || 'No class' }}
+          </option>
+        </select>
+      </div>
+      <div class="issue-info">
+        <span>📅</span> Due date will be set to <strong>14 days from today</strong>. Fine of ₹2/day for late returns.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showIssueForm=false">Cancel</button>
+      <button class="btn-save" (click)="issueBook()" [disabled]="issuing">{{ issuing ? 'Issuing...' : 'Issue Book' }}</button>
+    </div>
+  </div>
+</div>

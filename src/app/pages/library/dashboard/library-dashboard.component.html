@@ -1,0 +1,165 @@
+<div class="lib-layout">
+
+  <!-- Sidebar -->
+  <aside class="lib-sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">📚</div>
+      <div>
+        <div class="brand-name">Library</div>
+        <div class="brand-sub">Management System</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active" routerLink="/library/dashboard">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" routerLink="/library/books">
+        <span class="nav-icon">📖</span> Books
+      </a>
+      <a class="nav-item" routerLink="/library/members">
+        <span class="nav-icon">👥</span> Members
+      </a>
+      <a class="nav-item" routerLink="/library/issues">
+        <span class="nav-icon">🔄</span> Issue / Return
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="librarian-info">
+        <div class="lib-avatar">L</div>
+        <div>
+          <div class="lib-name">Librarian</div>
+          <div class="lib-role">Administrator</div>
+        </div>
+      </div>
+      <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="lib-main">
+
+    <!-- Header -->
+    <header class="lib-header">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-sub">Library overview & statistics</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-primary" routerLink="/library/books">+ Add Book</button>
+        <button class="btn-secondary" routerLink="/library/issues">Issue Book</button>
+      </div>
+    </header>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card books">
+        <div class="stat-icon">📚</div>
+        <div class="stat-info">
+          <div class="stat-value">{{ stats.totalBooks }}</div>
+          <div class="stat-label">Total Books</div>
+        </div>
+        <div class="stat-trend">+12%</div>
+      </div>
+
+      <div class="stat-card available">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+          <div class="stat-value">{{ stats.availableBooks }}</div>
+          <div class="stat-label">Available</div>
+        </div>
+        <div class="stat-trend">Ready</div>
+      </div>
+
+      <div class="stat-card issued">
+        <div class="stat-icon">📤</div>
+        <div class="stat-info">
+          <div class="stat-value">{{ stats.issuedBooks }}</div>
+          <div class="stat-label">Issued</div>
+        </div>
+        <div class="stat-trend">Active</div>
+      </div>
+
+      <div class="stat-card overdue">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-info">
+          <div class="stat-value">{{ stats.overdueBooks }}</div>
+          <div class="stat-label">Overdue</div>
+        </div>
+        <div class="stat-trend">Alert</div>
+      </div>
+
+      <div class="stat-card members">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <div class="stat-value">{{ stats.totalMembers }}</div>
+          <div class="stat-label">Members</div>
+        </div>
+        <div class="stat-trend">Enrolled</div>
+      </div>
+    </div>
+
+    <!-- Recent Issues Table -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>Recently Issued Books</h2>
+        <a routerLink="/library/issues" class="view-all">View All →</a>
+      </div>
+
+      <div *ngIf="recentIssues.length === 0" class="empty-state">
+        <div class="empty-icon">📭</div>
+        <p>No active issues. <a routerLink="/library/issues">Issue a book</a></p>
+      </div>
+
+      <table *ngIf="recentIssues.length > 0" class="lib-table">
+        <thead>
+          <tr>
+            <th>Book</th>
+            <th>Member</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let issue of recentIssues">
+            <td>{{ issue.book?.title }}</td>
+            <td>{{ issue.member?.name }}</td>
+            <td>{{ issue.issueDate }}</td>
+            <td>{{ issue.dueDate }}</td>
+            <td>
+              <span class="badge" [ngClass]="issue.status === 'ISSUED' ? 'badge-blue' : issue.status === 'OVERDUE' ? 'badge-red' : 'badge-green'">
+                {{ issue.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="action-grid">
+        <button class="action-card" routerLink="/library/books">
+          <span class="action-icon">📖</span>
+          <span>Manage Books</span>
+        </button>
+        <button class="action-card" routerLink="/library/members">
+          <span class="action-icon">👤</span>
+          <span>Add Member</span>
+        </button>
+        <button class="action-card" routerLink="/library/issues">
+          <span class="action-icon">📤</span>
+          <span>Issue Book</span>
+        </button>
+        <button class="action-card" routerLink="/library/issues">
+          <span class="action-icon">📥</span>
+          <span>Return Book</span>
+        </button>
+      </div>
+    </div>
+
+  </main>
+</div>

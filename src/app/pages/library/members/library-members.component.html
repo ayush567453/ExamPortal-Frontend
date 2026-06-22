@@ -1,0 +1,124 @@
+<div class="lib-layout">
+  <aside class="lib-sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">📚</div>
+      <div><div class="brand-name">Library</div><div class="brand-sub">Management System</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" routerLink="/library/dashboard"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" routerLink="/library/books"><span class="nav-icon">📖</span> Books</a>
+      <a class="nav-item active" routerLink="/library/members"><span class="nav-icon">👥</span> Members</a>
+      <a class="nav-item" routerLink="/library/issues"><span class="nav-icon">🔄</span> Issue / Return</a>
+    </nav>
+  </aside>
+
+  <main class="lib-main">
+    <header class="lib-header">
+      <div><h1 class="page-title">Members</h1><p class="page-sub">{{ members.length }} registered members</p></div>
+      <button class="btn-primary" (click)="openAdd()">+ Add Member</button>
+    </header>
+
+    <div class="search-bar">
+      <span>🔍</span>
+      <input [(ngModel)]="searchQ" (ngModelChange)="applyFilter()" placeholder="Search by name, email or phone..." class="search-input"/>
+      <button *ngIf="searchQ" class="clear-btn" (click)="searchQ=''; applyFilter()">✕</button>
+    </div>
+
+    <div class="members-table-wrap">
+      <table class="lib-table" *ngIf="filtered.length > 0">
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Class</th>
+            <th>Contact</th>
+            <th>Membership</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of filtered">
+            <td>
+              <div class="member-cell">
+                <div class="avatar" [style.background]="'hsl(' + (m.id * 73 % 360) + ',60%,55%)'">{{ getInitial(m.name) }}</div>
+                <div>
+                  <div class="member-name">{{ m.name }}</div>
+                  <div class="member-email">{{ m.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ m.studentClass || '—' }}</td>
+            <td>{{ m.phone || '—' }}</td>
+            <td>
+              <div class="date-cell">
+                <small>From: {{ m.membershipDate || '—' }}</small><br/>
+                <small>To: {{ m.membershipExpiry || '—' }}</small>
+              </div>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="m.status === 'ACTIVE' ? 'badge-green' : 'badge-red'">{{ m.status }}</span>
+            </td>
+            <td>
+              <div class="action-btns">
+                <button class="edit-btn" (click)="openEdit(m)">✏️</button>
+                <button class="del-btn" (click)="delete(m.id)">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="empty-state" *ngIf="filtered.length === 0">
+        <div class="empty-icon">👥</div>
+        <p *ngIf="searchQ">No members found for "{{ searchQ }}"</p>
+        <p *ngIf="!searchQ">No members yet. <button class="link-btn" (click)="openAdd()">Add first member</button></p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="showForm" (click)="showForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ editMode ? 'Edit Member' : 'Add New Member' }}</h2>
+      <button class="modal-close" (click)="showForm=false">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Full Name *</label>
+          <input [(ngModel)]="form.name" placeholder="Member's full name" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input [(ngModel)]="form.email" type="email" placeholder="Email address" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input [(ngModel)]="form.phone" placeholder="Phone number" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Class / Grade</label>
+          <input [(ngModel)]="form.studentClass" placeholder="e.g. Class 10-A" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select [(ngModel)]="form.status" class="form-input">
+            <option value="ACTIVE">Active</option>
+            <option value="EXPIRED">Expired</option>
+            <option value="SUSPENDED">Suspended</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Address</label>
+          <textarea [(ngModel)]="form.address" placeholder="Address" class="form-input" rows="2"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showForm=false">Cancel</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ saving ? 'Saving...' : (editMode ? 'Update' : 'Add Member') }}</button>
+    </div>
+  </div>
+</div>

@@ -26,6 +26,13 @@ export class LoginComponent implements OnInit {
   formSubmit() {
     console.log('login btn clicked');
 
+    // Library hardcoded credentials
+    if (this.loginData.username === 'librarian' && this.loginData.password === 'lib@123') {
+      sessionStorage.setItem('librarian', 'true');
+      this.router.navigate(['/library/dashboard']);
+      return;
+    }
+
     if (
       this.loginData.username.trim() == '' ||
       this.loginData.username == null

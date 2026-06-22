@@ -57,6 +57,10 @@ import { TeacherListComponent } from './pages/school-admin/teacher-list/teacher-
 import { ClassesComponent } from './pages/school-admin/classes/classes.component';
 import { TimetableComponent } from './pages/school-admin/timetable/timetable.component';
 import { FeesComponent } from './pages/school-admin/fees/fees.component';
+import { LibraryDashboardComponent } from './pages/library/dashboard/library-dashboard.component';
+import { LibraryBooksComponent } from './pages/library/books/library-books.component';
+import { LibraryMembersComponent } from './pages/library/members/library-members.component';
+import { LibraryIssuesComponent } from './pages/library/issues/library-issues.component';
 
 
 @NgModule({
@@ -99,6 +103,10 @@ import { FeesComponent } from './pages/school-admin/fees/fees.component';
     ClassesComponent,
     TimetableComponent,
     FeesComponent,
+    LibraryDashboardComponent,
+    LibraryBooksComponent,
+    LibraryMembersComponent,
+    LibraryIssuesComponent,
   ],
   imports: [
     BrowserModule,
@@ -122,6 +130,7 @@ import { FeesComponent } from './pages/school-admin/fees/fees.component';
     NgxUiLoaderHttpModule.forRoot({
       showForeground: true,
     }),
+    WebcamModule,
   ],
   providers: [
     {

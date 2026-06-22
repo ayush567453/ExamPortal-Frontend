@@ -1,0 +1,123 @@
+<div class="lib-layout">
+  <aside class="lib-sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">📚</div>
+      <div><div class="brand-name">Library</div><div class="brand-sub">Management System</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" routerLink="/library/dashboard"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item active" routerLink="/library/books"><span class="nav-icon">📖</span> Books</a>
+      <a class="nav-item" routerLink="/library/members"><span class="nav-icon">👥</span> Members</a>
+      <a class="nav-item" routerLink="/library/issues"><span class="nav-icon">🔄</span> Issue / Return</a>
+    </nav>
+  </aside>
+
+  <main class="lib-main">
+    <header class="lib-header">
+      <div><h1 class="page-title">Books Catalog</h1><p class="page-sub">{{ books.length }} books in library</p></div>
+      <button class="btn-primary" (click)="openAdd()">+ Add Book</button>
+    </header>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input [(ngModel)]="searchQ" (ngModelChange)="search()" placeholder="Search by title or author..." class="search-input"/>
+      <button *ngIf="searchQ" class="clear-btn" (click)="searchQ=''; search()">✕</button>
+    </div>
+
+    <!-- Books Grid -->
+    <div class="books-grid">
+      <div class="book-card" *ngFor="let book of filtered">
+        <div class="book-cover" [style.background]="'linear-gradient(135deg, hsl(' + (book.id * 47 % 360) + ',60%,50%), hsl(' + (book.id * 47 % 360 + 40) + ',70%,40%))'">
+          <span class="book-initial">{{ book.title[0] }}</span>
+        </div>
+        <div class="book-info">
+          <div class="book-title" title="{{ book.title }}">{{ book.title }}</div>
+          <div class="book-author">by {{ book.author }}</div>
+          <div class="book-meta">
+            <span class="genre-tag" *ngIf="book.genre">{{ book.genre }}</span>
+            <span class="year-tag" *ngIf="book.publishedYear">{{ book.publishedYear }}</span>
+          </div>
+          <div class="copies-row">
+            <div class="copies-info">
+              <span class="copies-avail">{{ book.availableCopies }}</span>
+              <span class="copies-sep">/</span>
+              <span class="copies-total">{{ book.totalCopies }}</span>
+              <span class="copies-label"> available</span>
+            </div>
+            <div class="avail-badge" [ngClass]="book.availableCopies > 0 ? 'avail' : 'unavail'">
+              {{ book.availableCopies > 0 ? 'In Stock' : 'Issued Out' }}
+            </div>
+          </div>
+          <div class="book-actions">
+            <button class="edit-btn" (click)="openEdit(book)">✏️ Edit</button>
+            <button class="del-btn" (click)="delete(book.id)">🗑️</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="filtered.length === 0">
+        <div class="empty-icon">📭</div>
+        <p *ngIf="searchQ">No books found for "{{ searchQ }}"</p>
+        <p *ngIf="!searchQ">No books yet. <button class="link-btn" (click)="openAdd()">Add first book</button></p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="showForm" (click)="showForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ editMode ? 'Edit Book' : 'Add New Book' }}</h2>
+      <button class="modal-close" (click)="showForm=false">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Title *</label>
+          <input [(ngModel)]="form.title" placeholder="Book title" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Author *</label>
+          <input [(ngModel)]="form.author" placeholder="Author name" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>ISBN</label>
+          <input [(ngModel)]="form.isbn" placeholder="ISBN number" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Genre</label>
+          <select [(ngModel)]="form.genre" class="form-input">
+            <option value="">Select genre</option>
+            <option *ngFor="let g of genres" [value]="g">{{ g }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Publisher</label>
+          <input [(ngModel)]="form.publisher" placeholder="Publisher" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Published Year</label>
+          <input [(ngModel)]="form.publishedYear" type="number" placeholder="2024" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Total Copies</label>
+          <input [(ngModel)]="form.totalCopies" type="number" min="1" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Available Copies</label>
+          <input [(ngModel)]="form.availableCopies" type="number" min="0" class="form-input"/>
+        </div>
+        <div class="form-group full">
+          <label>Description</label>
+          <textarea [(ngModel)]="form.description" placeholder="Short description..." class="form-input" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showForm=false">Cancel</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ saving ? 'Saving...' : (editMode ? 'Update Book' : 'Add Book') }}</button>
+    </div>
+  </div>
+</div>

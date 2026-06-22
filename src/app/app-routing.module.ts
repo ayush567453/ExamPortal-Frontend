@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LibraryDashboardComponent } from './pages/library/dashboard/library-dashboard.component';
+import { LibraryBooksComponent } from './pages/library/books/library-books.component';
+import { LibraryMembersComponent } from './pages/library/members/library-members.component';
+import { LibraryIssuesComponent } from './pages/library/issues/library-issues.component';
 import { AddCategoryComponent } from './pages/admin/add-category/add-category.component';
 import { AddQuestionComponent } from './pages/admin/add-question/add-question.component';
 import { AddQuizComponent } from './pages/admin/add-quiz/add-quiz.component';
@@ -159,6 +163,16 @@ component:ResetPasswordComponent,
       { path: 'classes', component: ClassesComponent },
       { path: 'timetable', component: TimetableComponent },
       { path: 'fees', component: FeesComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
+  },
+  {
+    path: 'library',
+    children: [
+      { path: 'dashboard', component: LibraryDashboardComponent },
+      { path: 'books',     component: LibraryBooksComponent },
+      { path: 'members',   component: LibraryMembersComponent },
+      { path: 'issues',    component: LibraryIssuesComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
